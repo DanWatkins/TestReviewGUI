@@ -12,7 +12,7 @@ TableView {
     }
 
     TableViewColumn {
-        role: "class"
+        role: "_class"
         title: "Class"
         width: 120
     }
@@ -31,37 +31,17 @@ TableView {
 
     model: ListModel {
         ListElement {
-            path: "C:/Users/Dan/Desktop/"
-            recursive: "Yes"
-            cleanFrequency: 10.5
-        }
-
-        ListElement {
-            path: "C:/Program Files/"
-            recursive: "Yes"
-            cleanFrequency: 1.5
+            status: "Passed"
+            _class: "Test_Rule"
+            name: "initTestCase"
+            message: ""
         }
     }
 
     Menu {
         id: contextMenu
         MenuItem {
-            text: qsTr("Start")
-        }
-        MenuItem {
-            text: qsTr("Stop")
-        }
-        MenuItem {
-            text: qsTr("Force run")
-        }
-
-        MenuSeparator { }
-
-        MenuItem {
-            text: qsTr("Delete")
-        }
-        MenuItem {
-            text: qsTr("Edit conditions...")
+            text: qsTr("Go to source...")
         }
     }
 
