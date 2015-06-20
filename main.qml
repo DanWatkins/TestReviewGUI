@@ -31,7 +31,7 @@ ApplicationWindow {
         font.pixelSize: 12
     }
 
-    SplitView {
+    TestTableView {
         anchors.right: parent.right
         anchors.rightMargin: 5
         anchors.top: progressBar1.bottom
@@ -40,18 +40,5 @@ ApplicationWindow {
         anchors.bottomMargin: 5
         anchors.left: parent.left
         anchors.leftMargin: 5
-        orientation: Qt.Vertical
-
-        GroupBox {
-            id: groupBox1
-            height: 200
-            title: qsTr("Failed")
-        }
-
-        GroupBox {
-            id: groupBox2
-            height: 100
-            title: qsTr("Passed")
-        }
     }
 }
