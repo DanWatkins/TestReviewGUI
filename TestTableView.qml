@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.1
 
 TableView {
     id: tableView
+    model: testResultsTableModel
 
     TableViewColumn {
         role: "status"
@@ -12,13 +13,13 @@ TableView {
     }
 
     TableViewColumn {
-        role: "_class"
+        role: "className"
         title: "Class"
         width: 120
     }
 
     TableViewColumn {
-        role: "name"
+        role: "testName"
         title: "Name"
         width: 120
     }
@@ -27,15 +28,6 @@ TableView {
         role: "message"
         title: "Message"
         width: 120
-    }
-
-    model: ListModel {
-        ListElement {
-            status: "Passed"
-            _class: "Test_Rule"
-            name: "initTestCase"
-            message: ""
-        }
     }
 
     Menu {

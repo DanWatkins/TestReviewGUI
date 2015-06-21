@@ -2,7 +2,11 @@ TEMPLATE = app
 
 QT += qml quick widgets
 
-SOURCES += main.cpp
+CONFIG += c++14
+
+SOURCES += main.cpp \
+    TestResultsTableModel.cpp \
+    TestResult.cpp
 
 RESOURCES += qml.qrc
 
@@ -11,3 +15,7 @@ QML_IMPORT_PATH =
 
 # Default rules for deployment.
 include(deployment.pri)
+
+HEADERS += \
+    TestResultsTableModel.h \
+    TestResult.h
