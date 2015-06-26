@@ -8,12 +8,14 @@ TestResultsTableModel::TestResultsTableModel()
 
 int TestResultsTableModel::rowCount(const QModelIndex &parent) const
 {
-    mTestResults.count();
+    Q_UNUSED(parent);
+    return mTestResults.size();
 }
 
 
 int TestResultsTableModel::columnCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent);
     return 4;
 }
 
@@ -21,7 +23,6 @@ int TestResultsTableModel::columnCount(const QModelIndex &parent) const
 QVariant TestResultsTableModel::data(const QModelIndex &index, int role) const
 {
     const TestResult &testResult = mTestResults[index.row()];
-    int column = index.column(); //index.column();
 
     switch (static_cast<TestResult::Role>(role))
     {

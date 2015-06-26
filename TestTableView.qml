@@ -4,7 +4,6 @@ import QtQuick.Layouts 1.1
 
 TableView {
     id: tableView
-    model: testResultsTableModel
 
     TableViewColumn {
         role: "status"
@@ -29,6 +28,8 @@ TableView {
         title: "Message"
         width: 120
     }
+
+    model: testResultsTableModel
 
     Menu {
         id: contextMenu
