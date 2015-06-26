@@ -3,6 +3,7 @@ import QtQuick.Controls 1.3
 import QtQuick.Window 2.2
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.1
+import QtTestReviewGUI 1.0
 
 ApplicationWindow {
     id: root
@@ -13,6 +14,7 @@ ApplicationWindow {
 
     function loadTestResultsFile() {
         console.log("loding shit");
+        testTableView.model.parseFile(textField_fileToParse.text);
     }
 
     TestTableView {
@@ -23,11 +25,16 @@ ApplicationWindow {
         anchors.left: parent.left
         anchors.topMargin: 5
         anchors.margins: 5
+
+        model: TestResultsTableModel {
+        }
     }
 
     TextField {
         id: textField_fileToParse
         height: 20
+        text: "file:///C:/Users/Dan/Desktop/Results.txt"
+
         anchors.right: button_browseFileToParse.left
         anchors.rightMargin: 5
         anchors.left: text1.right
@@ -69,7 +76,6 @@ ApplicationWindow {
         selectMultiple: false
         nameFilters: [ "All files (*)" ]
         selectedNameFilter: "All files (*)"
-        sidebarVisible: true
 
         onAccepted: {
             textField_fileToParse.text = fileUrl

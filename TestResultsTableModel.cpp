@@ -3,7 +3,7 @@
 
 TestResultsTableModel::TestResultsTableModel()
 {
-
+    parseFile("");
 }
 
 int TestResultsTableModel::rowCount(const QModelIndex &parent) const
@@ -49,4 +49,29 @@ QHash<int, QByteArray> TestResultsTableModel::roleNames() const
     roles[(int)TestResult::Role::Message] = "message";
 
     return roles;
+}
+
+
+void TestResultsTableModel::parseFile(const QString &filepath)
+{
+    mTestResults.clear();
+
+    {
+        TestResult t1;
+        t1.status = TestResult::Status::Passed;
+        t1.className = "Test_Rule";
+        t1.testName = "initTestCase";
+        t1.message = "";
+        mTestResults.append(t1);
+    }
+    {
+        TestResult t1;
+        t1.status = TestResult::Status::Failed;
+        t1.className = "Test_Rule";
+        t1.testName = "makeIt";
+        t1.message = "Bad pointer dude.";
+        mTestResults.append(t1);
+    }
+
+    emit layoutChanged();
 }

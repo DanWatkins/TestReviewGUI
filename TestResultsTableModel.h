@@ -6,6 +6,8 @@
 
 class TestResultsTableModel : public QAbstractTableModel
 {
+    Q_OBJECT
+
 public:
     TestResultsTableModel();
 
@@ -14,7 +16,8 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-    void addTestResult(const TestResult &testResult) { mTestResults.append(testResult); }
+    QVector<TestResult>& testResults() { return mTestResults; }
+    Q_INVOKABLE void parseFile(const QString &filepath);
 
 private:
     QVector<TestResult> mTestResults;

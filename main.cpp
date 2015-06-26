@@ -10,25 +10,10 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-    TestResultsTableModel testResultsTableModel;
-    {
-        TestResult t1;
-        t1.status = TestResult::Status::Passed;
-        t1.className = "Test_Rule";
-        t1.testName = "initTestCase";
-        t1.message = "";
-        testResultsTableModel.addTestResult(t1);
-    }
-    {
-        TestResult t1;
-        t1.status = TestResult::Status::Failed;
-        t1.className = "Test_Rule";
-        t1.testName = "makeIt";
-        t1.message = "Bad pointer dude.";
-        testResultsTableModel.addTestResult(t1);
-    }
+    //TestResultsTableModel testResultsTableModel;
+    //engine.rootContext()->setContextProperty("testResultsTableModel", &testResultsTableModel);
 
-    engine.rootContext()->setContextProperty("testResultsTableModel", &testResultsTableModel);
+    qmlRegisterType<TestResultsTableModel>("QtTestReviewGUI", 1, 0, "TestResultsTableModel");
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
