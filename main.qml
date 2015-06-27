@@ -7,7 +7,7 @@ import QtTestReviewGUI 1.0
 
 ApplicationWindow {
     id: root
-    title: qsTr("QtTestReviewGUI - W:/GoogleDrive/Code/Dev/Tests/Terrain3D_tests_20150620175611.txt")
+    title: qsTr("QtTestReviewGUI")
     width: 640
     height: 480
     visible: true
