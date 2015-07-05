@@ -19,13 +19,18 @@ struct TestResult
         Status = Qt::UserRole+1,
         ClassName,
         TestName,
-        Message
+        Message,
+        FilePath,
+        fileLineNumber
     };
 
     Status status       = Status::None;
     QString className   = "";
     QString testName    = "";
     QString message     = "";
+
+    QString filePath    = "";
+    int fileLineNumber  = 0;
 };
 
 #endif

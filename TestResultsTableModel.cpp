@@ -18,7 +18,7 @@ int TestResultsTableModel::rowCount(const QModelIndex &parent) const
 int TestResultsTableModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
-    return 4;
+    return 6;
 }
 
 
@@ -36,6 +36,10 @@ QVariant TestResultsTableModel::data(const QModelIndex &index, int role) const
         return testResult.testName;
     case TestResult::Role::Message:
         return testResult.message;
+    case TestResult::Role::FilePath:
+        return testResult.filePath;
+    case TestResult::Role::fileLineNumber:
+        return testResult.fileLineNumber;
     }
 
     return QVariant::Invalid;
@@ -49,6 +53,8 @@ QHash<int, QByteArray> TestResultsTableModel::roleNames() const
     roles[(int)TestResult::Role::ClassName] = "className";
     roles[(int)TestResult::Role::TestName] = "testName";
     roles[(int)TestResult::Role::Message] = "message";
+    roles[(int)TestResult::Role::FilePath] = "filePath";
+    roles[(int)TestResult::Role::fileLineNumber] = "fileLineNumber";
 
     return roles;
 }
@@ -69,25 +75,23 @@ void TestResultsTableModel::parseFile(const QString &filepath)
     while (!ts.atEnd())
         lines.append(ts.readLine());
 
-    for (const QString line : lines)
-        parseLine(line);
+    TestResult *previousTestResult = nullptr;
 
-    /*{
-        TestResult t1;
-        t1.status = TestResult::Status::Passed;
-        t1.className = "Test_Rule";
-        t1.testName = "initTestCase";
-        t1.message = "";
-        mTestResults.append(t1);
-    }
+    for (const QString line : lines)
     {
-        TestResult t1;
-        t1.status = TestResult::Status::Failed;
-        t1.className = "Test_Rule";
-        t1.testName = "makeIt";
-        t1.message = "Bad pointer dude.";
-        mTestResults.append(t1);
-    }*/
+        if (previousTestResult != nullptr && previousTestResult->status == TestResult::Status::Failed)
+        {
+            //the next line will show the filepath and line number for the failed test
+            QStringList chunks = line.split(" ")[0].split("(");
+            previousTestResult->filePath = chunks[0];
+            previousTestResult->fileLineNumber = chunks[1].left(chunks[1].count()-1).toInt();
+            previousTestResult = nullptr;
+        }
+        else
+        {
+            previousTestResult = parseLine(line);
+        }
+    }
 
     emit layoutChanged();
 }
@@ -120,7 +124,7 @@ TestResult parseClassNameAndTestName(const QString &line)
 }
 
 
-void TestResultsTableModel::parseLine(const QString &line)
+TestResult* TestResultsTableModel::parseLine(const QString &line)
 {
     if (line.startsWith("PASS   :"))
     {
@@ -134,4 +138,8 @@ void TestResultsTableModel::parseLine(const QString &line)
         testResult.status = TestResult::Status::Failed;
         mTestResults.append(testResult);
     }
+    else
+        return nullptr;
+
+    return &mTestResults.last();
 }

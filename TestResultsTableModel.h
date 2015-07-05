@@ -22,7 +22,7 @@ public:
 private:
     QVector<TestResult> mTestResults;
 
-    void parseLine(const QString &line);
+    TestResult* parseLine(const QString &line);
 };
 
 #endif

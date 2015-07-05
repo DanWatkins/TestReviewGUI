@@ -29,6 +29,18 @@ TableView {
         width: 120
     }
 
+    TableViewColumn {
+        role: "filePath"
+        title: "File"
+        width: 120
+    }
+
+    TableViewColumn {
+        role: "fileLineNumber"
+        title: "Line Number"
+        width: 120
+    }
+
     model: testResultsTableModel
 
     Menu {
