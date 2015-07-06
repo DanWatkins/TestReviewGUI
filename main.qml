@@ -77,7 +77,7 @@ ApplicationWindow {
         nameFilters: [ "All files (*)" ]
         selectedNameFilter: "All files (*)"
 
-        onAccepted: {
+        onAccepted: {  
             textField_fileToParse.text = fileUrl
             root.loadTestResultsFile();
         }

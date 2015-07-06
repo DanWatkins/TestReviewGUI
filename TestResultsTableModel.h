@@ -18,6 +18,7 @@ public:
 
     QVector<TestResult>& testResults() { return mTestResults; }
     Q_INVOKABLE void parseFile(const QString &filepath);
+    Q_INVOKABLE void gotoSourceFile(const QString &filepath, int lineNumber);
 
 private:
     QVector<TestResult> mTestResults;

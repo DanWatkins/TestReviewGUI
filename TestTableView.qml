@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.2
 import QtQuick.Layouts 1.1
+import QtTestReviewGUI 1.0
 
 TableView {
     id: tableView
@@ -41,12 +42,17 @@ TableView {
         width: 120
     }
 
-    model: testResultsTableModel
-
     Menu {
         id: contextMenu
+        property int row: 0
+
         MenuItem {
             text: qsTr("Go to source...")
+
+            onTriggered: {
+                console.log(contextMenu.row)
+                model.gotoSourceFile("W:/GoogleDrive/Code/Dev/DanWatkins/QtTestReviewGUI/TestResultsTableModel.cpp", 34)
+            }
         }
     }
 
@@ -71,6 +77,7 @@ TableView {
                     mouse.accepted = false
                     tableView.selection.deselect(0, tableView.rowCount-1)
                     tableView.selection.select(styleData.row)
+                    contextMenu.row =  styleData.row
                     contextMenu.popup()
                 }
             }

@@ -1,11 +1,11 @@
 #include "TestResultsTableModel.h"
 #include <QDebug>
+#include <QtCore/QUrl>
 #include <QtCore/QFile>
-#include <QtCore/QRegularExpression>
+#include <QtCore/QProcess>
 
 TestResultsTableModel::TestResultsTableModel()
 {
-    parseFile("");
 }
 
 int TestResultsTableModel::rowCount(const QModelIndex &parent) const
@@ -64,7 +64,7 @@ void TestResultsTableModel::parseFile(const QString &filepath)
 {
     mTestResults.clear();
 
-    QFile file(filepath);
+    QFile file(QUrl(filepath).toLocalFile());
 
     if (!file.open(QIODevice::ReadOnly))
         return;
@@ -94,6 +94,16 @@ void TestResultsTableModel::parseFile(const QString &filepath)
     }
 
     emit layoutChanged();
+}
+
+
+void TestResultsTableModel::gotoSourceFile(const QString &filepath, int lineNumber)
+{
+    QProcess process;
+    QStringList arguments;
+    arguments << filepath+":"+QString::number(lineNumber) << "-client";
+    process.start("qtcreator.exe", arguments);
+    process.waitForFinished();
 }
 
 
