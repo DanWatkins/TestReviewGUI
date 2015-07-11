@@ -2,17 +2,26 @@
 #define TestResult_h
 
 #include <QtCore/QString>
+#include <QtCore/QObject>
+#include <QtCore/QDebug>
 
-struct TestResult
+class TestResult : public QObject
 {
-    enum class Status
+    Q_OBJECT
+
+public:
+    TestResult(QObject *parent=nullptr) : QObject(parent) {}
+    ~TestResult() { qDebug() << "Destroying shit"; }
+
+    enum Status
     {
         None,
         Passed,
         Failed,
         Skipped,
         Blacklisted
-    };
+    }; Q_ENUMS(Status)
+
 
     enum class Role
     {
@@ -21,7 +30,7 @@ struct TestResult
         TestName,
         Message,
         FilePath,
-        fileLineNumber
+        FileLineNumber
     };
 
     Status status       = Status::None;
@@ -31,6 +40,8 @@ struct TestResult
 
     QString filePath    = "";
     int fileLineNumber  = 0;
+
+    QString statusAsString() const;
 };
 
 #endif

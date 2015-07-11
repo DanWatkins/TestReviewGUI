@@ -10,37 +10,54 @@ TableView {
         role: "status"
         title: "Status"
         width: 120
+        movable: false
     }
 
     TableViewColumn {
         role: "className"
         title: "Class"
         width: 120
+        movable: false
     }
 
     TableViewColumn {
         role: "testName"
         title: "Name"
         width: 120
+        movable: false
     }
 
     TableViewColumn {
         role: "message"
         title: "Message"
         width: 120
+        movable: false
     }
 
     TableViewColumn {
         role: "filePath"
         title: "File"
         width: 120
+        movable: false
     }
 
     TableViewColumn {
         role: "fileLineNumber"
         title: "Line Number"
         width: 120
+        movable: false
     }
+
+    onSortIndicatorColumnChanged: {
+        console.log("Doing 1 columnName="+tableView.getColumn(sortIndicatorColumn).role)
+        model.sort(sortIndicatorColumn, sortIndicatorOrder)
+    }
+
+    onSortIndicatorOrderChanged: {
+        console.log("Doing 2 columnName="+tableView.getColumn(sortIndicatorColumn).role)
+        model.sort(sortIndicatorColumn, sortIndicatorOrder)
+    }
+
 
     Menu {
         id: contextMenu
