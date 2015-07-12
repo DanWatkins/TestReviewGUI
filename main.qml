@@ -26,8 +26,7 @@ ApplicationWindow {
         anchors.topMargin: 5
         anchors.margins: 5
 
-        model: TestResultsTableModel {
-        }
+        model: TestResultsTableModel {}
     }
 
     TextField {
@@ -92,7 +91,7 @@ ApplicationWindow {
 
             Label {
                 text: testTableView.model.statusText
-                width: 300
+                width: 300  //TODO hack. How can we get implicitwidth working?
             }
         }
     }

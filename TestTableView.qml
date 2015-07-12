@@ -58,6 +58,9 @@ TableView {
         model.sort(sortIndicatorColumn, sortIndicatorOrder)
     }
 
+    function gotoSourceFile() {
+        model.gotoSourceFileForRow(currentRow)
+    }
 
     Menu {
         id: contextMenu
@@ -67,8 +70,7 @@ TableView {
             text: qsTr("Go to source...")
 
             onTriggered: {
-                console.log(contextMenu.row)
-                model.gotoSourceFile("W:/GoogleDrive/Code/Dev/DanWatkins/QtTestReviewGUI/TestResultsTableModel.cpp", 34)
+                gotoSourceFile()
             }
         }
     }
@@ -80,22 +82,39 @@ TableView {
                 right: parent.right
                 verticalCenter: parent.verticalCenter
             }
+
             height: parent.height
             color: styleData.selected ? 'lightblue' : 'white'
 
             MouseArea {
                 anchors.fill: parent
-                acceptedButtons: Qt.RightButton
+                acceptedButtons: Qt.LeftButton | Qt.RightButton
                 propagateComposedEvents: true
 
                 signal rightClick()
 
-                onReleased: {
+                function adaptToSelection(mouse) {
                     mouse.accepted = false
                     tableView.selection.deselect(0, tableView.rowCount-1)
                     tableView.selection.select(styleData.row)
-                    contextMenu.row =  styleData.row
-                    contextMenu.popup()
+                    tableView.currentRow = styleData.row
+                }
+
+                onReleased: {
+                    adaptToSelection(mouse)
+
+                    if (mouse.button == Qt.RightButton) {
+                        contextMenu.row =  styleData.row
+                        contextMenu.popup()
+                    }
+                }
+
+                onDoubleClicked: {
+                    adaptToSelection(mouse)
+
+                    if (mouse.button == Qt.LeftButton) {
+                        gotoSourceFile()
+                    }
                 }
             }
         }

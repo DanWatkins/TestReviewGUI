@@ -140,11 +140,16 @@ void TestResultsTableModel::parseFile(const QString &filepath)
 }
 
 
-void TestResultsTableModel::gotoSourceFile(const QString &filepath, int lineNumber)
+void TestResultsTableModel::gotoSourceFileForRow(int row)
 {
+    if (mTestResults.count() <= row)
+        return;
+
+    const TestResult *testResult = mTestResults[row];
+
     QProcess process;
     QStringList arguments;
-    arguments << filepath+":"+QString::number(lineNumber) << "-client";
+    arguments << testResult->filePath+":"+QString::number(testResult->fileLineNumber) << "-client";
     process.start("qtcreator.exe", arguments);
     process.waitForFinished();
 }
