@@ -48,13 +48,13 @@ TableView {
         movable: false
     }
 
+    sortIndicatorVisible: true
+
     onSortIndicatorColumnChanged: {
-        console.log("Doing 1 columnName="+tableView.getColumn(sortIndicatorColumn).role)
         model.sort(sortIndicatorColumn, sortIndicatorOrder)
     }
 
     onSortIndicatorOrderChanged: {
-        console.log("Doing 2 columnName="+tableView.getColumn(sortIndicatorColumn).role)
         model.sort(sortIndicatorColumn, sortIndicatorOrder)
     }
 

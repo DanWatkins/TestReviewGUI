@@ -11,8 +11,8 @@ class TestResult : public QObject
 
 public:
     TestResult(QObject *parent=nullptr) : QObject(parent) {}
-    ~TestResult() { qDebug() << "Destroying shit"; }
 
+public:
     enum Status
     {
         None,

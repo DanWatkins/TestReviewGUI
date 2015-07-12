@@ -62,9 +62,41 @@ QHash<int, QByteArray> TestResultsTableModel::roleNames() const
 
 void TestResultsTableModel::sort(int column, Qt::SortOrder order)
 {
-    qDebug() << "column=" << column;
-    mTestResults.append(mTestResults.first());
+    //do the sorting magic
+    {
+        switch (column)
+        {
+        case 0:
+            std::stable_sort(mTestResults.begin(), mTestResults.end(),
+                  [](const TestResult *a, const TestResult *b){ return a->status < b->status; });
+            break;
+        case 1:
+            std::stable_sort(mTestResults.begin(), mTestResults.end(),
+                  [](const TestResult *a, const TestResult *b){ return a->className.localeAwareCompare(b->className) < 0; });
+            break;
+        case 2:
+            std::stable_sort(mTestResults.begin(), mTestResults.end(),
+                  [](const TestResult *a, const TestResult *b){ return a->testName.localeAwareCompare(b->testName) < 0; });
+            break;
+        case 3:
+            std::stable_sort(mTestResults.begin(), mTestResults.end(),
+                  [](const TestResult *a, const TestResult *b){ return a->message.localeAwareCompare(b->message) < 0; });
+            break;
+        case 4:
+            std::stable_sort(mTestResults.begin(), mTestResults.end(),
+                  [](const TestResult *a, const TestResult *b){ return a->filePath.localeAwareCompare(b->filePath) < 0; });
+            break;
+        case 5:
+            std::stable_sort(mTestResults.begin(), mTestResults.end(),
+                  [](const TestResult *a, const TestResult *b){ return a->fileLineNumber < b->fileLineNumber; });
+            break;
+        }
+    }
 
+    if (order == Qt::AscendingOrder)
+        std::reverse(mTestResults.begin(), mTestResults.end());
+
+    //declare that the model has in fact changed
     QAbstractItemModel::sort(column, order);
     emit layoutChanged();
 }
