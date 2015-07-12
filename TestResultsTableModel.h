@@ -11,6 +11,8 @@ class TestResultsTableModel : public QAbstractTableModel
 public:
     TestResultsTableModel();
 
+    Q_PROPERTY(QString statusText READ statusText NOTIFY statusTextChanged);
+
     int rowCount(const QModelIndex &parent) const override;
     int columnCount(const QModelIndex &parent) const override;
     QVariant data(const QModelIndex &index, int role) const override;
@@ -20,6 +22,11 @@ public:
     QVector<TestResult*>& testResults() { return mTestResults; }
     Q_INVOKABLE void parseFile(const QString &filepath);
     Q_INVOKABLE void gotoSourceFile(const QString &filepath, int lineNumber);
+
+    QString statusText() const;
+
+signals:
+    statusTextChanged();
 
 private:
     QVector<TestResult*> mTestResults;

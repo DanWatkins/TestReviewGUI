@@ -91,7 +91,8 @@ ApplicationWindow {
             anchors.fill: parent
 
             Label {
-                text: "4 passed, 1 failed, 0 skipped, 0 blacklisted"
+                text: testTableView.model.statusText
+                width: 300
             }
         }
     }

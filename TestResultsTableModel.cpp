@@ -136,6 +136,7 @@ void TestResultsTableModel::parseFile(const QString &filepath)
     }
 
     emit layoutChanged();
+    emit statusTextChanged();
 }
 
 
@@ -146,6 +147,29 @@ void TestResultsTableModel::gotoSourceFile(const QString &filepath, int lineNumb
     arguments << filepath+":"+QString::number(lineNumber) << "-client";
     process.start("qtcreator.exe", arguments);
     process.waitForFinished();
+}
+
+
+QString TestResultsTableModel::statusText() const
+{
+    auto testCountForStatus = [this](TestResult::Status status)
+    {
+        int count = 0;
+
+        for (const TestResult *testResult : mTestResults)
+            if (testResult->status == status)
+                count++;
+
+        return count;
+    };
+
+    QString statusText;
+    statusText += QString::number(testCountForStatus(TestResult::Status::Passed)) + " passed, ";
+    statusText += QString::number(testCountForStatus(TestResult::Status::Failed)) + " failed, ";
+    statusText += QString::number(testCountForStatus(TestResult::Status::Skipped)) + " skipped, ";
+    statusText += QString::number(testCountForStatus(TestResult::Status::Blacklisted)) + " blacklisted";
+
+    return statusText;
 }
 
 
