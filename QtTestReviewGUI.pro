@@ -1,4 +1,5 @@
 TEMPLATE = app
+VERSION = 1.0.0.1
 
 QT += qml quick widgets
 
@@ -6,7 +7,8 @@ CONFIG += c++14
 
 SOURCES += main.cpp \
     TestResultsTableModel.cpp \
-    TestResult.cpp
+    TestResult.cpp \
+    Appstate.cpp
 
 RESOURCES += qml.qrc
 
@@ -18,4 +20,5 @@ include(deployment.pri)
 
 HEADERS += \
     TestResultsTableModel.h \
-    TestResult.h
+    TestResult.h \
+    Appstate.h

@@ -4,8 +4,14 @@
 #include <QtCore/QFile>
 #include <QtCore/QProcess>
 
+#include "Appstate.h"
+
 TestResultsTableModel::TestResultsTableModel()
 {
+    qDebug() << "Appstate::openFilePath is " << Appstate::openFilePath;
+
+    if (Appstate::openFilePath != "")
+        parseFile(Appstate::openFilePath);
 }
 
 int TestResultsTableModel::rowCount(const QModelIndex &parent) const
@@ -104,6 +110,7 @@ void TestResultsTableModel::sort(int column, Qt::SortOrder order)
 
 void TestResultsTableModel::parseFile(const QString &filepath)
 {
+    qDebug() << "Parsing " << filepath;
     mTestResults.clear();
 
     QFile file(QUrl(filepath).toLocalFile());
