@@ -1,11 +1,14 @@
+//=============================================================================|
+// Copyright (C) 2015 Dan Watkins
+// This file is licensed under the MIT License.
+//=============================================================================|
+
 #include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QtQml>
 
-#include <windows.h>
-
-#include "TestResultsTableModel.h"
-#include "Appstate.h"
+#include <QtTestReviewGUI/TestResultsTableModel.h>
+#include <QtTestReviewGUI/Appstate.h>
 
 int main(int argc, char *argv[])
 {
@@ -23,7 +26,7 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     qmlRegisterType<TestResultsTableModel>("QtTestReviewGUI", 1, 0, "TestResultsTableModel");
-    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    engine.load(QUrl(QStringLiteral("qrc:/Main.qml")));
 
     return app.exec();
 }

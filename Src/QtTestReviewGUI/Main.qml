@@ -1,3 +1,8 @@
+//=============================================================================|
+// Copyright (C) 2015 Dan Watkins
+// This file is licensed under the MIT License.
+//=============================================================================|
+
 import QtQuick 2.4
 import QtQuick.Controls 1.3
 import QtQuick.Window 2.2

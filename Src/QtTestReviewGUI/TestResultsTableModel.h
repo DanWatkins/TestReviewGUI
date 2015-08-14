@@ -1,14 +1,22 @@
+//=============================================================================|
+// Copyright (C) 2015 Dan Watkins
+// This file is licensed under the MIT License.
+//=============================================================================|
+
 #ifndef TestResultsTableModel_h
 #define TestResultsTableModel_h
 
 #include <QAbstractTableModel>
 #include "TestResult.h"
 
+class FriendParser;
+
 class TestResultsTableModel : public QAbstractTableModel
 {
     Q_OBJECT
 
 public:
+    friend class ResultParser;
     TestResultsTableModel();
 
     Q_PROPERTY(QString statusText READ statusText NOTIFY statusTextChanged)
@@ -31,8 +39,7 @@ signals:
 private:
     QVector<TestResult*> mTestResults;
 
-    TestResult* parseLine(const QString &line);
-    TestResult* parseClassNameAndTestName(const QString &line);
+
 };
 
 #endif
