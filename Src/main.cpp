@@ -9,13 +9,6 @@
 
 int main(int argc, char *argv[])
 {
-#if defined(WIN32)
-    /*AllocConsole();
-    freopen("CONIN$", "r", stdin);
-    freopen("CONOUT$", "w", stdout);
-    freopen("CONOUT$", "w", stderr);*/
-#endif
-
     qDebug() << "Arguments:";
 
     for (int i=0; i<argc; i++)
