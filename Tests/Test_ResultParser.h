@@ -83,6 +83,18 @@ private slots:
             "Bogus", "Results_03", "'false' returned FALSE. ()",
             "E:/Bogusnator/Bogus.h", 79);
     }
+
+
+    void Results_QSKIP()
+    {
+        auto model = makeModel("://FakeResults/Results_QSKIP.txt");
+        const auto &results = model->testResults();
+        QCOMPARE(results.count(), 1);
+
+        assertTestResult(results[0], TestResult::Status::Skipped,
+            "Nalgene", "doStuffForXPOnly", "Not running on Windows XP",
+            "E:/Code/Nalegene.h", 94);
+    }
 };
 
 DECLARE_TEST(Test_ResultParser)

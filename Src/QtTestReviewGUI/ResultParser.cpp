@@ -36,7 +36,8 @@ bool ResultParser::parseFile(const QString &filepath,
     for (const QString line : lines)
     {
         if ((previousTestResult != nullptr) &&
-            (previousTestResult->status == TestResult::Status::Failed))
+            ((previousTestResult->status == TestResult::Status::Failed) ||
+            (previousTestResult->status == TestResult::Status::Skipped)))
         {
             //next line will show the filepath/line number for the failed test
             QStringList chunks = line.split(" ")[0].split("(");
@@ -93,10 +94,16 @@ TestResult* ResultParser::parseLine(const QString &line)
         testResult->status = TestResult::Status::Passed;
         mCurrentModel->mTestResults.append(testResult);
     }
-    else if (line.startsWith(("FAIL!  :")))
+    else if (line.startsWith("FAIL!  :"))
     {
         auto testResult = parseClassNameAndTestName(line);
         testResult->status = TestResult::Status::Failed;
+        mCurrentModel->mTestResults.append(testResult);
+    }
+    else if (line.startsWith("SKIP   :"))
+    {
+        auto testResult = parseClassNameAndTestName(line);
+        testResult->status = TestResult::Status::Skipped;
         mCurrentModel->mTestResults.append(testResult);
     }
     else

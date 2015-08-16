@@ -19,8 +19,6 @@ public:
     friend class ResultParser;
     TestResultsTableModel(QObject *parent=nullptr);
 
-    ~TestResultsTableModel() { qDebug() << "Destroyed TestResultsTableModel"; }
-
     Q_PROPERTY(QString statusText READ statusText NOTIFY statusTextChanged)
 
     int rowCount(const QModelIndex &parent) const override;
