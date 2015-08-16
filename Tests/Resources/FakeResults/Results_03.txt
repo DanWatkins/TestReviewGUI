@@ -1,0 +1,8 @@
+********* Start testing of Bogus *********
+Config: Using QtTest library 5.5.0, Qt 5.5.0 (i386-little_endian-ilp32 shared (dynamic) debug build; by GCC 4.9.2)
+PASS   : Bogus::initTestCase()
+FAIL!  : Bogus::Results_03() 'false' returned FALSE. ()
+E:/Bogusnator/Bogus.h(79) : failure location
+PASS   : Bogus::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted
+********* Finished testing of Test_ResultParser *********
