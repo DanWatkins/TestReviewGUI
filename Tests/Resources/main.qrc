@@ -1,2 +1,5 @@
-<RCC/>
-
+<RCC>
+    <qresource prefix="/">
+        <file>FakeResults/Results_01.txt</file>
+    </qresource>
+</RCC>

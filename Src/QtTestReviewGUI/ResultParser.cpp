@@ -16,11 +16,11 @@ ResultParser::ResultParser()
 void ResultParser::parseFile(const QString &filepath,
                              TestResultsTableModel *model)
 {
-    qDebug() << "Parsing " << filepath;
     mCurrentModel = model;
     mCurrentModel->mTestResults.clear();
 
-    QFile file(QUrl(filepath).toLocalFile());
+    //QUrl(filepath).toLocalFile()
+    QFile file(filepath);
 
     if (!file.open(QIODevice::ReadOnly))
         return;
@@ -70,7 +70,8 @@ TestResult* ResultParser::parseClassNameAndTestName(const QString &line)
                                          scopeResPos-nameStartPos-2);
 
         testResult->testName = line.mid(scopeResPos,
-                                        spaceAfterTestNamePos-scopeResPos);
+                                        spaceAfterTestNamePos-scopeResPos)
+                                .replace("()", "");
     }
 
     if (INBOUNDS(spaceAfterTestNamePos))

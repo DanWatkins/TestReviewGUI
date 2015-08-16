@@ -38,6 +38,7 @@ public:
         FileLineNumber
     };
 
+    //TODO can we use vbase::Property here?
     Status status       = Status::None;
     QString className   = "";
     QString testName    = "";

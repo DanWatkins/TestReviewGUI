@@ -1,0 +1,12 @@
+********* Start testing of Test_Loadable *********
+Config: Using QtTest library 5.5.0, Qt 5.5.0 (i386-little_endian-ilp32 shared (dynamic) debug build; by GCC 4.9.2)
+PASS   : Test_Loadable::simpleCheck()
+PASS   : Test_Loadable::cleanupTestCase()
+Totals: 2 passed, 0 failed, 0 skipped, 0 blacklisted
+********* Finished testing of Test_Loadable *********
+
+********* Start testing of QObject *********
+Config: Using QtTest library 5.5.0, Qt 5.5.0 (i386-little_endian-ilp32 shared (dynamic) debug build; by GCC 4.9.2)
+PASS   : QObject::initTestCase()
+Totals: 1 passed, 0 failed, 0 skipped, 0 blacklisted
+********* Finished testing of QObject *********

@@ -13,8 +13,6 @@
 
 TestResultsTableModel::TestResultsTableModel()
 {
-    qDebug() << "Appstate::openFilePath is " << Appstate::openFilePath;
-
     if (Appstate::openFilePath != "")
         parseFile(Appstate::openFilePath);
 }

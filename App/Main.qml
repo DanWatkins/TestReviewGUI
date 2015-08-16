@@ -47,7 +47,7 @@ ApplicationWindow {
         selectedNameFilter: "All files (*)"
 
         onAccepted: {  
-            testTableView.model.parseFile(fileUrl);
+            testTableView.model.parseFile(Qt.resolvedUrl(fileUrl).toLocalFile());
             label_filePath.text = fileUrl
         }
     }
