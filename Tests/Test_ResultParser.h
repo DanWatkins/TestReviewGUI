@@ -6,6 +6,7 @@
 #include <QObject>
 #include <ValpineBase/Test.h>
 #include <QtTestReviewGUI/ResultParser.h>
+#include <memory>
 
 class Test_ResultParser : public QObject
 {
@@ -28,15 +29,23 @@ private:
         QCOMPARE(testResult->fileLineNumber, fileLineNumber);
     }
 
+
+    std::unique_ptr<TestResultsTableModel> makeModel(const QString &filepath)
+    {
+        ResultParser parser;
+        auto model = std::make_unique<TestResultsTableModel>();
+        parser.parseFile(filepath, model.get());
+
+        return model;
+    }
+
+
 private slots:
     //Standard, all passed
     void Results_01()
     {
-        ResultParser parser;
-        TestResultsTableModel model;
-        QVERIFY(parser.parseFile("://FakeResults/Results_01.txt", &model));
-
-        const auto &results = model.testResults();
+        auto model = makeModel("://FakeResults/Results_01.txt");
+        const auto &results = model->testResults();
         QCOMPARE(results.count(), 3);
 
         assertTestResult(results[0], TestResult::Status::Passed,
@@ -51,11 +60,8 @@ private slots:
     //QVERIFY_EXCEPTION_THROWN
     void Results_02()
     {
-        ResultParser parser;
-        TestResultsTableModel model;
-        QVERIFY(parser.parseFile("://FakeResults/Results_02.txt", &model));
-
-        const auto &results = model.testResults();
+        auto model = makeModel("://FakeResults/Results_02.txt");
+        const auto &results = model->testResults();
         QCOMPARE(results.count(), 3);
 
         assertTestResult(results[1], TestResult::Status::Failed,
@@ -69,18 +75,14 @@ private slots:
     //QVERIFY
     void Results_03()
     {
-        ResultParser parser;
-        TestResultsTableModel model;
-        QVERIFY(parser.parseFile("://FakeResults/Results_03.txt", &model));
-
-        const auto &results = model.testResults();
+        auto model = makeModel("://FakeResults/Results_03.txt");
+        const auto &results = model->testResults();
         QCOMPARE(results.count(), 3);
 
         assertTestResult(results[1], TestResult::Status::Failed,
             "Bogus", "Results_03", "'false' returned FALSE. ()",
             "E:/Bogusnator/Bogus.h", 79);
     }
-
 };
 
 DECLARE_TEST(Test_ResultParser)

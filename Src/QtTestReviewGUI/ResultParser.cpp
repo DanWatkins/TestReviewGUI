@@ -58,7 +58,7 @@ bool ResultParser::parseFile(const QString &filepath,
 //TODO do all this with QRegularExpression later. I'm too dumb right now and need this tool ASAP.
 TestResult* ResultParser::parseClassNameAndTestName(const QString &line)
 {
-    TestResult *testResult = new TestResult(this);
+    TestResult *testResult = new TestResult(mCurrentModel);
 
     int nameStartPos = line.indexOf(":")+2;
     int scopeResPos = line.indexOf("::")+2;

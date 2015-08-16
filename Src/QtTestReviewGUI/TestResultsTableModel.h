@@ -17,7 +17,9 @@ class TestResultsTableModel : public QAbstractTableModel
 
 public:
     friend class ResultParser;
-    TestResultsTableModel();
+    TestResultsTableModel(QObject *parent=nullptr);
+
+    ~TestResultsTableModel() { qDebug() << "Destroyed TestResultsTableModel"; }
 
     Q_PROPERTY(QString statusText READ statusText NOTIFY statusTextChanged)
 

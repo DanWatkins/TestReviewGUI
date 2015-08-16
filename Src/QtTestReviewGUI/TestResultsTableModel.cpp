@@ -11,8 +11,10 @@
 #include "Appstate.h"
 #include "ResultParser.h"
 
-TestResultsTableModel::TestResultsTableModel()
+TestResultsTableModel::TestResultsTableModel(QObject *parent) :
+    QAbstractTableModel(parent)
 {
+    //TODO massive hack YO
     if (Appstate::openFilePath != "")
         parseFile(Appstate::openFilePath);
 }
