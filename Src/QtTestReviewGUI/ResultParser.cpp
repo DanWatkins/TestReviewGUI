@@ -13,7 +13,7 @@ ResultParser::ResultParser()
 
 }
 
-void ResultParser::parseFile(const QString &filepath,
+bool ResultParser::parseFile(const QString &filepath,
                              TestResultsTableModel *model)
 {
     mCurrentModel = model;
@@ -23,7 +23,7 @@ void ResultParser::parseFile(const QString &filepath,
     QFile file(filepath);
 
     if (!file.open(QIODevice::ReadOnly))
-        return;
+        return false;
 
     QTextStream ts(&file);
     QStringList lines;
@@ -50,6 +50,8 @@ void ResultParser::parseFile(const QString &filepath,
             previousTestResult = parseLine(line);
         }
     }
+
+    return true;
 }
 
 //returns character position where the testName ends in line
@@ -75,7 +77,7 @@ TestResult* ResultParser::parseClassNameAndTestName(const QString &line)
     }
 
     if (INBOUNDS(spaceAfterTestNamePos))
-        testResult->message = line.mid(spaceAfterTestNamePos);
+        testResult->message = line.mid(spaceAfterTestNamePos).remove(0,1);
 
 #undef INBOUNDS
 

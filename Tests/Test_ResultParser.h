@@ -33,11 +33,9 @@ private slots:
     {
         ResultParser parser;
         TestResultsTableModel model;
-        parser.parseFile("://FakeResults/Results_01.txt", &model);
+        QVERIFY(parser.parseFile("://FakeResults/Results_01.txt", &model));
 
-
-        const auto& results = model.testResults();
-
+        const auto &results = model.testResults();
         QCOMPARE(results.count(), 3);
 
         assertTestResult(results[0], TestResult::Status::Passed,
@@ -46,6 +44,23 @@ private slots:
                         "Test_Loadable", "cleanupTestCase", "", "", 0);
         assertTestResult(results[2], TestResult::Status::Passed,
                         "QObject", "initTestCase", "", "", 0);
+    }
+
+
+    void Results_02()
+    {
+        ResultParser parser;
+        TestResultsTableModel model;
+        QVERIFY(parser.parseFile("://FakeResults/Results_02.txt", &model));
+
+        const auto &results = model.testResults();
+        QCOMPARE(results.count(), 3);
+
+        assertTestResult(results[1], TestResult::Status::Failed,
+            "Test_ResultParser", "Results_QWARN",
+            "Expected exception of type std::exception to be thrown but no exception caught",
+            "E:/GoogleDrive/Code/Dev/DanWatkins/QtTestReviewGUI/Tests/Test_ResultParser.h",
+            59);
     }
 };
 

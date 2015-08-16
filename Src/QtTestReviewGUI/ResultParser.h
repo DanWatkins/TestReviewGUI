@@ -17,7 +17,7 @@ class ResultParser : public QObject
 
 public:
     ResultParser();
-    void parseFile(const QString &filepath, TestResultsTableModel *model);
+    bool parseFile(const QString &filepath, TestResultsTableModel *model);
 
 private:
     TestResultsTableModel *mCurrentModel;

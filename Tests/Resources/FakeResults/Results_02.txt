@@ -1,0 +1,8 @@
+********* Start testing of Test_ResultParser *********
+Config: Using QtTest library 5.5.0, Qt 5.5.0 (i386-little_endian-ilp32 shared (dynamic) debug build; by GCC 4.9.2)
+PASS   : Test_ResultParser::Results_01()
+FAIL!  : Test_ResultParser::Results_QWARN() Expected exception of type std::exception to be thrown but no exception caught
+E:/GoogleDrive/Code/Dev/DanWatkins/QtTestReviewGUI/Tests/Test_ResultParser.h(59) : failure location
+PASS   : Test_ResultParser::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted
+********* Finished testing of Test_ResultParser *********
