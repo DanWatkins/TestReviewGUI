@@ -34,7 +34,7 @@ public:
     QString statusText() const;
 
 signals:
-    statusTextChanged();
+    void statusTextChanged();
 
 private:
     QVector<TestResult*> mTestResults;
