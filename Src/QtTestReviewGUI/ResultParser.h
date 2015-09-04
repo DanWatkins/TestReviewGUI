@@ -6,24 +6,17 @@
 #ifndef ResultParser_h
 #define ResultParser_h
 
-#include <QObject>
-
 #include "TestResult.h"
-#include "TestResultsTableModel.h"
 
 class ResultParser : public QObject
 {
-    Q_OBJECT
-
 public:
-    ResultParser();
-    bool parseFile(const QString &filepath, TestResultsTableModel *model);
+    bool parseFile(const QString &filepath, TestResultsMap *testResultsMap);
 
 private:
-    TestResultsTableModel *mCurrentModel;
+    TestResultsMap *mTestResultsMap;
 
-    TestResult* parseLine(const QString &line);
-    TestResult* parseClassNameAndTestName(const QString &line);
+    void parseTestClassJsonObject(const QJsonObject &testClassJsonObject);
 };
 
 #endif

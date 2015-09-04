@@ -3,8 +3,8 @@
 // This file is licensed under the MIT License.
 //=============================================================================|
 
-import QtQuick 2.4
-import QtQuick.Controls 1.3
+import QtQuick 2.5
+import QtQuick.Controls 1.4
 import QtQuick.Window 2.2
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.1
@@ -47,7 +47,7 @@ ApplicationWindow {
         selectedNameFilter: "All files (*)"
 
         onAccepted: {  
-            testTableView.model.parseFile(Qt.resolvedUrl(fileUrl).toLocalFile());
+            testTableView.model.parseFile(Qt.resolvedUrl(fileUrl));
             label_filePath.text = fileUrl
         }
     }

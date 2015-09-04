@@ -5,109 +5,74 @@
 
 #include <QtCore/QFile>
 #include <QtCore/QUrl>
+#include <QtCore/QJsonDocument>
+#include <QtCore/QJsonArray>
+#include <QtCore/QJsonObject>
 
 #include "ResultParser.h"
 
-ResultParser::ResultParser()
-{
-
-}
-
 bool ResultParser::parseFile(const QString &filepath,
-                             TestResultsTableModel *model)
+                             TestResultsMap *testResultsMap)
 {
-    mCurrentModel = model;
-    mCurrentModel->mTestResults.clear();
+    mTestResultsMap = testResultsMap;
 
     //QUrl(filepath).toLocalFile()
-    QFile file(filepath);
+    auto cleanFilePath = filepath;
+    cleanFilePath.replace("file:///", "");
+    QFile file(cleanFilePath);
 
-    if (!file.open(QIODevice::ReadOnly))
+    if (!file.open(QFile::ReadOnly | QFile::Text))
         return false;
 
-    QTextStream ts(&file);
-    QStringList lines;
+    QJsonParseError error;
+    auto doc = QJsonDocument::fromJson(file.readAll(), &error);
 
-    while (!ts.atEnd())
-        lines.append(ts.readLine());
-
-    TestResult *previousTestResult = nullptr;
-
-    for (const QString line : lines)
+    if (error.error != QJsonParseError::NoError)
     {
-        if ((previousTestResult != nullptr) &&
-            ((previousTestResult->status == TestResult::Status::Failed) ||
-            (previousTestResult->status == TestResult::Status::Skipped)))
-        {
-            //next line will show the filepath/line number for the failed test
-            QStringList chunks = line.split(" ")[0].split("(");
-            previousTestResult->filePath = chunks[0];
-            previousTestResult->fileLineNumber
-                    = chunks[1].left(chunks[1].count()-1).toInt();
-            previousTestResult = nullptr;
-        }
-        else
-        {
-            previousTestResult = parseLine(line);
-        }
+        qDebug() << error.errorString();
+        return false;
     }
+
+    for (const auto &testClassResult : doc.array())
+        parseTestClassJsonObject(testClassResult.toObject());
 
     return true;
 }
 
-//returns character position where the testName ends in line
-//TODO do all this with QRegularExpression later. I'm too dumb right now and need this tool ASAP.
-TestResult* ResultParser::parseClassNameAndTestName(const QString &line)
+
+TestResult::Status statusForString(const QString &str)
 {
-    TestResult *testResult = new TestResult(mCurrentModel);
+    if (str == "failed")
+        return TestResult::Status::Failed;
+    else if (str == "passed")
+        return TestResult::Status::Passed;
 
-    int nameStartPos = line.indexOf(":")+2;
-    int scopeResPos = line.indexOf("::")+2;
-    int spaceAfterTestNamePos = line.indexOf(" ", scopeResPos);
-
-#define INBOUNDS(pos) (pos > 0 && pos < line.count())
-
-    if (INBOUNDS(nameStartPos) && INBOUNDS(scopeResPos))
-    {
-        testResult->className = line.mid(nameStartPos,
-                                         scopeResPos-nameStartPos-2);
-
-        testResult->testName = line.mid(scopeResPos,
-                                        spaceAfterTestNamePos-scopeResPos)
-                                .replace("()", "");
-    }
-
-    if (INBOUNDS(spaceAfterTestNamePos))
-        testResult->message = line.mid(spaceAfterTestNamePos).remove(0,1);
-
-#undef INBOUNDS
-
-    return testResult;
+    return TestResult::Status::None;
 }
 
 
-TestResult* ResultParser::parseLine(const QString &line)
+void ResultParser::parseTestClassJsonObject(const QJsonObject &testClassJsonObject)
 {
-    if (line.startsWith("PASS   :"))
-    {
-        auto testResult = parseClassNameAndTestName(line);
-        testResult->status = TestResult::Status::Passed;
-        mCurrentModel->mTestResults.append(testResult);
-    }
-    else if (line.startsWith("FAIL!  :"))
-    {
-        auto testResult = parseClassNameAndTestName(line);
-        testResult->status = TestResult::Status::Failed;
-        mCurrentModel->mTestResults.append(testResult);
-    }
-    else if (line.startsWith("SKIP   :"))
-    {
-        auto testResult = parseClassNameAndTestName(line);
-        testResult->status = TestResult::Status::Skipped;
-        mCurrentModel->mTestResults.append(testResult);
-    }
-    else
-        return nullptr;
+    QVector<TestResult*> testResults;
 
-    return mCurrentModel->mTestResults.last();
+    for (const auto &iter : testClassJsonObject["results"].toArray())
+    {
+        auto testResultJsonObject = iter.toObject();
+        auto *testResult = new TestResult;
+
+        testResult->status = statusForString(testResultJsonObject["status"].toString());
+        testResult->testName = testResultJsonObject["name"].toString();
+
+        qDebug() << "Parsed test " << testResult->testName;
+
+        if (testResult->status == TestResult::Status::Failed)
+        {
+            testResult->filePath = testResultJsonObject["filePath"].toString();
+            testResult->fileLineNumber = testResultJsonObject["lineNumber"].toInt();
+        }
+
+        testResults.append(testResult);
+    }
+
+    mTestResultsMap->insert(testClassJsonObject["className"].toString(), testResults);
 }

@@ -27,17 +27,6 @@ public:
         Blacklisted
     }; Q_ENUMS(Status)
 
-
-    enum class Role
-    {
-        Status = Qt::UserRole+1,
-        ClassName,
-        TestName,
-        Message,
-        FilePath,
-        FileLineNumber
-    };
-
     //TODO can we use vbase::Property here?
     Status status       = Status::None;
     QString className   = "";
@@ -49,5 +38,7 @@ public:
 
     QString statusAsString() const;
 };
+
+using TestResultsMap = QMap<QString, QVector<TestResult*>>;
 
 #endif

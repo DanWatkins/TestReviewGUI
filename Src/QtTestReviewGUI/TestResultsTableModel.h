@@ -6,12 +6,12 @@
 #ifndef TestResultsTableModel_h
 #define TestResultsTableModel_h
 
-#include <QAbstractTableModel>
+#include <QtCore/QAbstractItemModel>
+#include <QtCore/QMap>
+
 #include "TestResult.h"
 
-class FriendParser;
-
-class TestResultsTableModel : public QAbstractTableModel
+class TestResultsTableModel : public QAbstractItemModel
 {
     Q_OBJECT
 
@@ -21,13 +21,22 @@ public:
 
     Q_PROPERTY(QString statusText READ statusText NOTIFY statusTextChanged)
 
+    enum class Roles
+    {
+        Status = Qt::UserRole + 10,
+        Test
+    };
+
     int rowCount(const QModelIndex &parent) const override;
     int columnCount(const QModelIndex &parent) const override;
-    QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
-    Q_INVOKABLE virtual void sort(int column, Qt::SortOrder order = Qt::AscendingOrder) override;
 
-    QVector<TestResult*>& testResults() { return mTestResults; }
+    QVariant data(const QModelIndex &index, int role) const override;
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
+    Qt::ItemFlags flags(const QModelIndex &index) const override;
+    QModelIndex index(int row, int column, const QModelIndex &parent) const override;
+    QModelIndex parent(const QModelIndex &child) const override;
+
     Q_INVOKABLE void parseFile(const QString &filepath);
     Q_INVOKABLE void gotoSourceFileForRow(int row);
 
@@ -37,9 +46,8 @@ signals:
     void statusTextChanged();
 
 private:
-    QVector<TestResult*> mTestResults;
-
-
+    //map of class names and the test results
+    TestResultsMap mTestResultsMap;
 };
 
 #endif
