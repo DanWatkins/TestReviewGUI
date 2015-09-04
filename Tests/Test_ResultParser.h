@@ -13,21 +13,21 @@ class Test_ResultParser : public QObject
     Q_OBJECT
 
 private:
-    void assertTestResult(const TestResult *testResult,
-                          TestResult::Status status,
-                          const QString &className,
-                          const QString &testName,
-                          const QString &message,
-                          const QString &filePath,
-                          int fileLineNumber)
-    {
-        QCOMPARE(testResult->status, status);
-        QCOMPARE(testResult->className, className);
-        QCOMPARE(testResult->testName, testName);
-        QCOMPARE(testResult->message, message);
-        QCOMPARE(testResult->filePath, filePath);
-        QCOMPARE(testResult->fileLineNumber, fileLineNumber);
-    }
+//    void assertTestResult(const TestResult *testResult,
+//                          TestResult::Status status,
+//                          const QString &className,
+//                          const QString &testName,
+//                          const QString &message,
+//                          const QString &filePath,
+//                          int fileLineNumber)
+//    {
+//        QCOMPARE(testResult->status, status);
+//        QCOMPARE(testResult->className, className);
+//        QCOMPARE(testResult->testName, testName);
+//        QCOMPARE(testResult->message, message);
+//        QCOMPARE(testResult->filePath, filePath);
+//        QCOMPARE(testResult->fileLineNumber, fileLineNumber);
+//    }
 
 
 //    std::unique_ptr<TestResultsTableModel> makeModel(const QString &filepath)

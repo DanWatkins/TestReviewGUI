@@ -16,34 +16,30 @@
 //
 
 TestResultsTableModel::TestResultsTableModel(QObject *parent) :
-    QAbstractItemModel(parent)
+    QAbstractItemModel(parent),
+    mRootTreeItem(new TreeItem(this))
 {
     //TODO massive hack YO
     if (Appstate::openFilePath != "")
         parseFile(Appstate::openFilePath);
 }
 
+
 int TestResultsTableModel::rowCount(const QModelIndex &parent) const
 {
-    Q_UNUSED(parent);
-    //FIXME
     return 0;
-    //return mTestResults.size();
 }
 
 
 int TestResultsTableModel::columnCount(const QModelIndex &parent) const
 {
-    Q_UNUSED(parent);
-    return 2;
+    return 0;
 }
 
 
 QHash<int, QByteArray> TestResultsTableModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
-    roles[static_cast<int>(Roles::Status)] = "status";
-    roles[static_cast<int>(Roles::Test)] = "test";
 
     return roles;
 }
@@ -51,80 +47,32 @@ QHash<int, QByteArray> TestResultsTableModel::roleNames() const
 
 QVariant TestResultsTableModel::data(const QModelIndex &index, int role) const
 {
-//    const auto testResult = mTestResults[index.row()];
-
-//    switch (static_cast<TestResult::Role>(role))
-//    {
-//    case Roles::Status:
-//        return testResult->statusAsString();
-//    case Roles::Test:
-//        return testResult->className;
-//    }
-
-    //FIXME
-
-    return QVariant::Invalid;
+    return int();
 }
 
 
 QVariant TestResultsTableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
-        return QVariant("Hello");
-    //TODO
-
     return QVariant();
-}
-
-
-Qt::ItemFlags TestResultsTableModel::flags(const QModelIndex &index) const
-{
-    if (!index.isValid())
-        return 0;
-
-    return QAbstractItemModel::flags(index);
 }
 
 
 QModelIndex TestResultsTableModel::index(int row, int column, const QModelIndex &parent) const
 {
-    if (!hasIndex(row, column, parent))
-        return QModelIndex();
-
-    //this is a class node
-    if (!parent.isValid())
-    {
-        //FIXME
-        createIndex(row, column, nullptr);
-    }
-    //this is a test node
-    else
-    {
-        //FIXME
-        createIndex(row, column, nullptr);
-    }
+    return QModelIndex();
 }
 
 
 QModelIndex TestResultsTableModel::parent(const QModelIndex &child) const
 {
-    if (!child.isValid())
-        return QModelIndex();
 
-    if (child.parent().internalPointer() == nullptr)
-        return QModelIndex();
-    else
-    {
-        //FIXME
-        return QModelIndex();
-    }
 }
 
 
 void TestResultsTableModel::parseFile(const QString &filepath)
 {
     ResultParser parser;
-    parser.parseFile(filepath, &mTestResultsMap);
+    parser.parseFile(filepath, mRootTreeItem.data());
 
     emit layoutChanged();
     emit statusTextChanged();

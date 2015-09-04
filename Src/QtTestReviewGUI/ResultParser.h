@@ -6,17 +6,15 @@
 #ifndef ResultParser_h
 #define ResultParser_h
 
-#include "TestResult.h"
+#include "TreeItem.h"
 
 class ResultParser : public QObject
 {
 public:
-    bool parseFile(const QString &filepath, TestResultsMap *testResultsMap);
+    bool parseFile(const QString &filepath, TreeItem *treeItem);
 
 private:
-    TestResultsMap *mTestResultsMap;
-
-    void parseTestClassJsonObject(const QJsonObject &testClassJsonObject);
+    void parseTestClassJsonObject(const QJsonObject &testClassJsonObject, TreeItem *treeItem);
 };
 
 #endif

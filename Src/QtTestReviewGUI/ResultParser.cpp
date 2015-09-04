@@ -11,11 +11,8 @@
 
 #include "ResultParser.h"
 
-bool ResultParser::parseFile(const QString &filepath,
-                             TestResultsMap *testResultsMap)
+bool ResultParser::parseFile(const QString &filepath, TreeItem *treeItem)
 {
-    mTestResultsMap = testResultsMap;
-
     //QUrl(filepath).toLocalFile()
     auto cleanFilePath = filepath;
     cleanFilePath.replace("file:///", "");
@@ -34,45 +31,33 @@ bool ResultParser::parseFile(const QString &filepath,
     }
 
     for (const auto &testClassResult : doc.array())
-        parseTestClassJsonObject(testClassResult.toObject());
+        parseTestClassJsonObject(testClassResult.toObject(), treeItem);
 
     return true;
 }
 
 
-TestResult::Status statusForString(const QString &str)
+void ResultParser::parseTestClassJsonObject(
+        const QJsonObject &testClassJsonObject, TreeItem *treeItem)
 {
-    if (str == "failed")
-        return TestResult::Status::Failed;
-    else if (str == "passed")
-        return TestResult::Status::Passed;
-
-    return TestResult::Status::None;
-}
-
-
-void ResultParser::parseTestClassJsonObject(const QJsonObject &testClassJsonObject)
-{
-    QVector<TestResult*> testResults;
+    auto *treeItemClass = new TreeItem_Class(treeItem);
+    treeItemClass->pName = testClassJsonObject["className"].toString();
 
     for (const auto &iter : testClassJsonObject["results"].toArray())
     {
         auto testResultJsonObject = iter.toObject();
-        auto *testResult = new TestResult;
+        auto *treeItemTest = new TreeItem_Test(treeItemClass);
 
-        testResult->status = statusForString(testResultJsonObject["status"].toString());
-        testResult->testName = testResultJsonObject["name"].toString();
+        treeItemTest->pStatus = testResultJsonObject["status"].toString();
+        treeItemTest->pName = testResultJsonObject["name"].toString();
 
-        qDebug() << "Parsed test " << testResult->testName;
+        qDebug() << "Parsed test " << treeItemTest->pName();
 
-        if (testResult->status == TestResult::Status::Failed)
-        {
-            testResult->filePath = testResultJsonObject["filePath"].toString();
-            testResult->fileLineNumber = testResultJsonObject["lineNumber"].toInt();
-        }
-
-        testResults.append(testResult);
+        //FIXME
+//        if (testResult->status == TestResult::Status::Failed)
+//        {
+//            testResult->filePath = testResultJsonObject["filePath"].toString();
+//            testResult->fileLineNumber = testResultJsonObject["lineNumber"].toInt();
+//        }
     }
-
-    mTestResultsMap->insert(testClassJsonObject["className"].toString(), testResults);
 }

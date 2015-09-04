@@ -8,8 +8,9 @@
 
 #include <QtCore/QAbstractItemModel>
 #include <QtCore/QMap>
+#include <QtCore/QScopedPointer>
 
-#include "TestResult.h"
+#include "TreeItem.h"
 
 class TestResultsTableModel : public QAbstractItemModel
 {
@@ -33,7 +34,7 @@ public:
 
     QVariant data(const QModelIndex &index, int role) const override;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
-    Qt::ItemFlags flags(const QModelIndex &index) const override;
+//    Qt::ItemFlags flags(const QModelIndex &index) const override;
     QModelIndex index(int row, int column, const QModelIndex &parent) const override;
     QModelIndex parent(const QModelIndex &child) const override;
 
@@ -47,7 +48,7 @@ signals:
 
 private:
     //map of class names and the test results
-    TestResultsMap mTestResultsMap;
+    QScopedPointer<TreeItem> mRootTreeItem;
 };
 
 #endif
