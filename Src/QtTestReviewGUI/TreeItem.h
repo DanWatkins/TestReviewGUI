@@ -12,31 +12,31 @@
 
 #include <ValpineBase/Property.h>
 
-class TreeItem : public QObject
-{
-    Q_OBJECT
+//class TreeItem : public QObject
+//{
+//    Q_OBJECT
 
-public:
-    TreeItem() = delete;
-    TreeItem(QObject *parent) : QObject(parent) {}
+//public:
+//    TreeItem() = delete;
+//    TreeItem(QObject *parent) : QObject(parent) {}
 
-    vbase::Property<QString> pName;
-};
-
-
-class TreeItem_Class : public TreeItem
-{
-public:
-    TreeItem_Class(QObject *parent) : TreeItem(parent) {}
-};
+//    vbase::Property<QString> pName;
+//};
 
 
-class TreeItem_Test : public TreeItem
-{
-public:
-    TreeItem_Test(QObject *parent) : TreeItem(parent) {}
+//class TreeItem_Class : public TreeItem
+//{
+//public:
+//    TreeItem_Class(QObject *parent) : TreeItem(parent) {}
+//};
 
-    vbase::Property<QString> pStatus;
-};
+
+//class TreeItem_Test : public TreeItem
+//{
+//public:
+//    TreeItem_Test(QObject *parent) : TreeItem(parent) {}
+
+//    vbase::Property<QString> pStatus;
+//};
 
 #endif

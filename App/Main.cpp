@@ -7,7 +7,7 @@
 #include <QQmlApplicationEngine>
 #include <QtQml>
 
-#include <QtTestReviewGUI/TestResultsTableModel.h>
+#include <QtTestReviewGUI/TestResultsTreeViewModel.h>
 #include <QtTestReviewGUI/Appstate.h>
 
 int main(int argc, char *argv[])
@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
-    qmlRegisterType<TestResultsTableModel>("QtTestReviewGUI", 1, 0, "TestResultsTableModel");
+    qmlRegisterType<TestResultsTreeViewModel>("QtTestReviewGUI", 1, 0, "TestResultsTreeViewModel");
     engine.load(QUrl(QStringLiteral("qrc:/Main.qml")));
 
     return app.exec();

@@ -11,8 +11,8 @@
 
 #include "ResultParser.h"
 
-bool ResultParser::parseFile(const QString &filepath, TreeItem *treeItem)
-{
+bool ResultParser::parseFile(const QString &filepath, QObject *treeItem)
+{    
     //QUrl(filepath).toLocalFile()
     auto cleanFilePath = filepath;
     cleanFilePath.replace("file:///", "");
@@ -38,20 +38,20 @@ bool ResultParser::parseFile(const QString &filepath, TreeItem *treeItem)
 
 
 void ResultParser::parseTestClassJsonObject(
-        const QJsonObject &testClassJsonObject, TreeItem *treeItem)
+        const QJsonObject &testClassJsonObject, QObject *treeItem)
 {
-    auto *treeItemClass = new TreeItem_Class(treeItem);
-    treeItemClass->pName = testClassJsonObject["className"].toString();
+    auto *treeItemClass = new QObject(treeItem);
+    treeItemClass->setProperty("type", "class");
+    treeItemClass->setProperty("name", testClassJsonObject["className"].toString());
 
     for (const auto &iter : testClassJsonObject["results"].toArray())
     {
         auto testResultJsonObject = iter.toObject();
-        auto *treeItemTest = new TreeItem_Test(treeItemClass);
+        auto *treeItemTest = new QObject(treeItemClass);
 
-        treeItemTest->pStatus = testResultJsonObject["status"].toString();
-        treeItemTest->pName = testResultJsonObject["name"].toString();
-
-        qDebug() << "Parsed test " << treeItemTest->pName();
+        treeItemTest->setProperty("type", "test");
+        treeItemTest->setProperty("status", testResultJsonObject["status"].toString());
+        treeItemTest->setProperty("name", testResultJsonObject["name"].toString());
 
         //FIXME
 //        if (testResult->status == TestResult::Status::Failed)

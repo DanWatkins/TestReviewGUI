@@ -30,12 +30,12 @@ ApplicationWindow {
         }
     }
 
-    TestTableView {
+    TestResultsTreeView {
         id: testTableView
         anchors.fill: parent
         anchors.margins: 5
 
-        model: TestResultsTableModel {}
+        model: TestResultsTreeViewModel {}
     }
 
     FileDialog {

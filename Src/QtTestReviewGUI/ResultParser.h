@@ -11,10 +11,10 @@
 class ResultParser : public QObject
 {
 public:
-    bool parseFile(const QString &filepath, TreeItem *treeItem);
+    bool parseFile(const QString &filepath, QObject *treeItem);
 
 private:
-    void parseTestClassJsonObject(const QJsonObject &testClassJsonObject, TreeItem *treeItem);
+    void parseTestClassJsonObject(const QJsonObject &testClassJsonObject, QObject *treeItem);
 };
 
 #endif
