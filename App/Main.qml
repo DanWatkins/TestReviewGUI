@@ -54,7 +54,6 @@ ApplicationWindow {
 
     statusBar: StatusBar {
         Row {
-            anchors.fill: parent
             spacing: 15
 
             Label {
