@@ -1,0 +1,50 @@
+//=============================================================================|
+// Copyright (C) 2015 Dan Watkins
+// This file is licensed under the MIT License.
+//=============================================================================|
+
+import QtQuick 2.5
+import QtQuick.Controls 1.4
+import QtQuick.Window 2.2
+import QtQuick.Dialogs 1.2
+import QtQuick.Layouts 1.1
+import QtTestReviewGUI 1.0
+
+Item {
+    width: 500
+    height: 300
+
+    Column {
+        width: 200
+        height: 400
+        spacing: 5
+
+        ColorPicker {
+            Layout.fillWidth: true
+            height: 20
+            text: "Class Background"
+
+            Component.onCompleted: setColor('white')
+        }
+
+        ColorPicker {
+            Layout.fillWidth: true
+            height: 20
+            text: "Test Background:"
+
+            Component.onCompleted: setColor('blue')
+        }
+
+        ColorPicker {
+            Layout.fillWidth: true
+            height: 20
+            text: "Passed Status:"
+        }
+
+        ColorPicker {
+            Layout.fillWidth: true
+            height: 20
+            text: "Failed Status:"
+        }
+    }
+}

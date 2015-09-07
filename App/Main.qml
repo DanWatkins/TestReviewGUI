@@ -27,6 +27,31 @@ ApplicationWindow {
                     fileDialog.open();
                 }
             }
+
+            MenuSeparator { }
+
+            MenuItem {
+                text: "Settings"
+                onTriggered: {
+                    settingsDialog.showNormal();
+                }
+            }
+        }
+
+        Menu {
+            title: "View"
+
+            MenuItem {
+                text: "Show passed tests"
+                checkable: true
+                checked: true
+            }
+
+            MenuItem {
+                text: "Show failed tests"
+                checkable: true
+                checked: true
+            }
         }
     }
 
@@ -37,6 +62,7 @@ ApplicationWindow {
 
         model: TestResultsTreeViewModel {}
     }
+
 
     FileDialog {
         id: fileDialog
@@ -49,6 +75,20 @@ ApplicationWindow {
         onAccepted: {  
             testTableView.model.parseFile(Qt.resolvedUrl(fileUrl));
             label_filePath.text = fileUrl
+        }
+    }
+
+    Window {
+        id: settingsDialog
+        modality: Qt.WindowModal
+        title: "Settings"
+        minimumWidth: pane.width
+        maximumWidth: pane.width
+        minimumHeight: pane.height
+        maximumHeight: pane.height
+
+        SettingsPane {
+            id: pane
         }
     }
 
