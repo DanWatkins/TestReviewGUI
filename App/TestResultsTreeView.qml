@@ -31,5 +31,54 @@ TreeView {
         title: "Status"
         width: 120
         movable: false
+
+        delegate: Item {
+            Text {
+                text: styleData.value
+                anchors.centerIn: parent
+                horizontalAlignment: Text.AlignHCenter
+            }
+
+            Rectangle {
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    verticalCenter: parent.verticalCenter
+                }
+
+                height: parent.height
+                radius: width*0.5
+
+                color: {
+                    if (styleData.value === qsTr("failed"))
+                        return '#60FF3300'
+                    else if (styleData.value === qsTr("passed"))
+                        return '#6000CC00'
+
+                    return '#00000000'
+                }
+            }
+        }
+    }
+
+    rowDelegate: Item {
+        Rectangle {
+            anchors {
+                left: parent.left
+                right: parent.right
+                verticalCenter: parent.verticalCenter
+            }
+
+            height: parent.height
+
+            color: {
+                if (styleData.selected)
+                    return 'lightblue'
+                else if (model.class && model.class.length > 0)
+                    return '#D5D5D5'
+                else
+                    return 'white'
+            }
+        }
     }
 }
