@@ -61,6 +61,31 @@ TreeView {
         }
     }
 
+    function gotoSourceFile() {
+        model.gotoSourceFileForRow(currentIndex)
+    }
+
+    Menu {
+        id: contextMenu
+
+        MenuItem {
+            text: qsTr("Go to source...")
+
+            onTriggered: {
+                gotoSourceFile()
+            }
+        }
+    }
+
+    onClicked: {
+        if (button === Qt.LeftButton)
+            console.log("Left clicked");
+        else if (button === Qt.RightButton) {
+            contextMenu.popup();
+            console.log("Right clicked");
+        }
+    }
+
     rowDelegate: Item {
         Rectangle {
             anchors {
@@ -74,9 +99,9 @@ TreeView {
             color: {
                 if (styleData.selected)
                     return 'lightblue'
-                else if (model.class && model.class.length > 0)
-                    return '#D5D5D5'
-                else
+//                else if (currentIndex)
+//                    return '#D5D5D5'
+//                else
                     return 'white'
             }
         }

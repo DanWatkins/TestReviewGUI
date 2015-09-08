@@ -148,57 +148,61 @@ void TestResultsTreeViewModel::parseFile(const QString &filepath)
 }
 
 
-void TestResultsTreeViewModel::gotoSourceFileForRow(int row)
+bool TestResultsTreeViewModel::gotoSourceFileForRow(const QModelIndex &index)
 {
-    //FIXME
+    auto item = static_cast<QObject*>(index.internalPointer());
 
-//    if (mTestResults.count() <= row)
-//        return;
+    if (item->property("type").toString() == "test")
+    {
+        const QVariant &filePath = item->property("filePath");
+        const QVariant &fileLineNumber = item->property("fileLineNumber");
 
-//    const TestResult *testResult = mTestResults[row];
+        if (filePath.isValid() && fileLineNumber.isValid())
+        {
+            QProcess process;
+            QStringList arguments;
+            arguments << filePath.toString() + ":"
+                         + fileLineNumber.toString() << "-client";
 
-//    QProcess process;
-//    QStringList arguments;
-//    arguments << testResult->filePath + ":"
-//                 + QString::number(testResult->fileLineNumber) << "-client";
-//    process.start("qtcreator.exe", arguments);
-//    //TODO don't use EXE for crossplatform compatability
-//    process.waitForFinished();
+            qDebug() << "Starting gotoSourceAction";
+            for (const auto &arg1 : arguments)
+                qDebug() << "    " << arg1;
+
+            process.start("C:/Qt/Tools/QtCreator/bin/qtcreator.exe", arguments);
+            //TODO don't use EXE for crossplatform compatability
+            process.waitForFinished();
+        }
+    }
 }
 
 
 QString TestResultsTreeViewModel::statusText() const
 {
-    /*auto testCountForStatus = [this](TestResult::Status status)
+    auto sumStatuses = [this] (const QString &status) -> int
     {
         int count = 0;
 
-        for (const TestResult *testResult : mTestResults)
-            if (testResult->status == status)
-                count++;
+        for (const QObject *child : mRootTreeItem->children())
+        {
+            for (const QObject *test : child->children())
+            {
+                if (test->property("status") == status)
+                    count++;
+            }
+        }
 
         return count;
     };
 
     QString statusText;
     statusText +=
-        QString::number(testCountForStatus(TestResult::Status::Passed))
-            + " passed, ";
+        QString::number(sumStatuses("passed")) + " passed, ";
     statusText +=
-        QString::number(testCountForStatus(TestResult::Status::Failed))
-            + " failed, ";
+        QString::number(sumStatuses("failed")) + " failed, ";
     statusText +=
-        QString::number(testCountForStatus(TestResult::Status::Skipped))
-            + " skipped, ";
-    statusText +=
-        QString::number(testCountForStatus(TestResult::Status::Blacklisted))
-            + " blacklisted";
+        QString::number(sumStatuses("skipped")) + " skipped";
 
-    return statusText;*/
-
-    //FIXME
-
-    return "";
+    return statusText;
 }
 
 //

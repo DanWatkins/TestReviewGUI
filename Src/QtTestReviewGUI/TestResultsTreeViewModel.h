@@ -31,7 +31,7 @@ public:
     QModelIndex parent(const QModelIndex &index) const override;
 
     Q_INVOKABLE void parseFile(const QString &filepath);
-    Q_INVOKABLE void gotoSourceFileForRow(int row);
+    Q_INVOKABLE bool gotoSourceFileForRow(const QModelIndex &index);
 
     QString statusText() const;
 

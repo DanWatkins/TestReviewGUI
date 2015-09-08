@@ -11,40 +11,78 @@ import QtQuick.Layouts 1.1
 import QtTestReviewGUI 1.0
 
 Item {
-    width: 500
-    height: 300
+    id: item1
+    width: 600
+    height: 350
 
-    Column {
-        width: 200
-        height: 400
+    RowLayout {
+        anchors.fill: parent
+        Layout.alignment: Qt.AlignLeft
         spacing: 5
 
-        ColorPicker {
-            Layout.fillWidth: true
-            height: 20
-            text: "Class Background"
+        ColumnLayout {
 
-            Component.onCompleted: setColor('white')
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            Layout.minimumHeight: 100
+            Layout.minimumWidth: 200
+
+            spacing: 5
+
+            Rectangle {
+                anchors.fill: parent
+                color: "gray"
+                opacity: 0.3
+            }
+
+            ColorPicker {
+                Layout.fillWidth: true
+                height: 20
+                text: "Class Background"
+
+                Component.onCompleted: setColor('white')
+            }
+
+            ColorPicker {
+                Layout.fillWidth: true
+                height: 20
+                text: "Test Background:"
+
+                Component.onCompleted: setColor('blue')
+            }
+
+            ColorPicker {
+                Layout.fillWidth: true
+                height: 20
+                text: "Passed Status:"
+            }
+
+            ColorPicker {
+                Layout.fillWidth: true
+                height: 20
+                text: "Failed Status:"
+            }
         }
 
-        ColorPicker {
+        ColumnLayout {
+            id: column1
+            Layout.fillHeight: true
             Layout.fillWidth: true
-            height: 20
-            text: "Test Background:"
+            Layout.minimumHeight: 100
+            Layout.minimumWidth: 300
+            spacing: 5
 
-            Component.onCompleted: setColor('blue')
-        }
+            Rectangle {
+                anchors.fill: parent
+                color: "gray"
+                opacity: 0.3
+            }
 
-        ColorPicker {
-            Layout.fillWidth: true
-            height: 20
-            text: "Passed Status:"
-        }
-
-        ColorPicker {
-            Layout.fillWidth: true
-            height: 20
-            text: "Failed Status:"
+            PathPicker {
+                Layout.fillWidth: true
+                text: "Path to QtCreator:"
+                value: "fill in"
+            }
         }
     }
 }

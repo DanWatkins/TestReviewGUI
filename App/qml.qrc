@@ -4,5 +4,6 @@
         <file>TestResultsTreeView.qml</file>
         <file>SettingsPane.qml</file>
         <file>ColorPicker.qml</file>
+        <file>PathPicker.qml</file>
     </qresource>
 </RCC>

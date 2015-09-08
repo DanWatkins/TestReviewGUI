@@ -54,10 +54,10 @@ void ResultParser::parseTestClassJsonObject(
         treeItemTest->setProperty("name", testResultJsonObject["name"].toString());
 
         //FIXME
-//        if (testResult->status == TestResult::Status::Failed)
-//        {
-//            testResult->filePath = testResultJsonObject["filePath"].toString();
-//            testResult->fileLineNumber = testResultJsonObject["lineNumber"].toInt();
-//        }
+        if (treeItemTest->property("status").toString() == "failed")
+        {
+            treeItemTest->setProperty("filePath", testResultJsonObject["filePath"].toString());
+            treeItemTest->setProperty("fileLineNumber", testResultJsonObject["lineNumber"].toInt());
+        }
     }
 }
