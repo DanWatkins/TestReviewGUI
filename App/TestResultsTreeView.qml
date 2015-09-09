@@ -61,29 +61,8 @@ TreeView {
         }
     }
 
-    function gotoSourceFile() {
+    onDoubleClicked: {
         model.gotoSourceFileForRow(currentIndex)
-    }
-
-    Menu {
-        id: contextMenu
-
-        MenuItem {
-            text: qsTr("Go to source...")
-
-            onTriggered: {
-                gotoSourceFile()
-            }
-        }
-    }
-
-    onClicked: {
-        if (button === Qt.LeftButton)
-            console.log("Left clicked");
-        else if (button === Qt.RightButton) {
-            contextMenu.popup();
-            console.log("Right clicked");
-        }
     }
 
     rowDelegate: Item {

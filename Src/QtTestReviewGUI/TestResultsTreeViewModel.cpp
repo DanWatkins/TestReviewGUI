@@ -164,12 +164,8 @@ bool TestResultsTreeViewModel::gotoSourceFileForRow(const QModelIndex &index)
             arguments << filePath.toString() + ":"
                          + fileLineNumber.toString() << "-client";
 
-            qDebug() << "Starting gotoSourceAction";
-            for (const auto &arg1 : arguments)
-                qDebug() << "    " << arg1;
-
+            //TODO remove hardcoding
             process.start("C:/Qt/Tools/QtCreator/bin/qtcreator.exe", arguments);
-            //TODO don't use EXE for crossplatform compatability
             process.waitForFinished();
         }
     }
