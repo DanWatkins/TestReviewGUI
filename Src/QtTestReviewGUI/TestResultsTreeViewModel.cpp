@@ -81,10 +81,9 @@ QVariant TestResultsTreeViewModel::data(const QModelIndex &index, int role) cons
         if (item->property("type") == QString("test"))
             return item->property("status");
         break;
-
-    default:
-        return QVariant();
     }
+
+    return QVariant("");
 }
 
 
