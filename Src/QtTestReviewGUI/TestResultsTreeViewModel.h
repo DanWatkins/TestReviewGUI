@@ -45,7 +45,8 @@ private:
     {
         Class = Qt::UserRole + 10,
         Test,
-        Status
+        Status,
+        ExecutionTime
     };
 };
 

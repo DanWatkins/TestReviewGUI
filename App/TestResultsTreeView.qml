@@ -61,8 +61,17 @@ TreeView {
         }
     }
 
+
+    TableViewColumn {
+        role: "executionTime"
+        title: "Execution Time (ms)"
+        width: 140
+        movable: false
+    }
+
     onDoubleClicked: {
-        model.gotoSourceFileForRow(currentIndex)
+        if (!model.gotoSourceFileForRow(currentIndex))
+            console.warn("Unable to goto the current test's source. Make sure Qt Creator's path is set in the application's settings.");
     }
 
     rowDelegate: Item {

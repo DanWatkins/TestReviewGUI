@@ -8,6 +8,9 @@
 #include <QtCore/QJsonDocument>
 #include <QtCore/QJsonArray>
 #include <QtCore/QJsonObject>
+#include <QtCore/QDateTime>
+
+#include <ValpineBase/Test/Suite.h>
 
 #include "ResultParser.h"
 
@@ -30,7 +33,14 @@ bool ResultParser::parseFile(const QString &filepath, QObject *treeItem)
         return false;
     }
 
-    for (const auto &testClassResult : doc.array())
+    const QJsonObject rootObject = doc.object();
+    auto dateTime_started = QDateTime::fromString(rootObject["dateTime_started"].toString(),
+            vbase::test::Suite::dateFormat());
+
+    auto dateTime_finished = QDateTime::fromString(rootObject["dateTime_finished"].toString(),
+            vbase::test::Suite::dateFormat());
+
+    for (const auto &testClassResult : rootObject["results"].toArray())
         parseTestClassJsonObject(testClassResult.toObject(), treeItem);
 
     return true;
@@ -52,12 +62,15 @@ void ResultParser::parseTestClassJsonObject(
         treeItemTest->setProperty("type", "test");
         treeItemTest->setProperty("status", testResultJsonObject["status"].toString());
         treeItemTest->setProperty("name", testResultJsonObject["name"].toString());
+        treeItemTest->setProperty("executionTime", testResultJsonObject["executionTime"].toString());
 
         //FIXME
         if (treeItemTest->property("status").toString() == "failed")
         {
             treeItemTest->setProperty("filePath", testResultJsonObject["filePath"].toString());
             treeItemTest->setProperty("fileLineNumber", testResultJsonObject["lineNumber"].toInt());
+
+            treeItemTest->setProperty("message", testResultJsonObject["message"].toArray());
         }
     }
 }

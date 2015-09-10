@@ -43,7 +43,7 @@ int TestResultsTreeViewModel::rowCount(const QModelIndex &parent) const
 
 int TestResultsTreeViewModel::columnCount(const QModelIndex &parent) const
 {
-    return 3;
+    return 4;
 }
 
 
@@ -53,6 +53,7 @@ QHash<int, QByteArray> TestResultsTreeViewModel::roleNames() const
     roles[static_cast<int>(Roles::Class)] = "class";
     roles[static_cast<int>(Roles::Test)] = "test";
     roles[static_cast<int>(Roles::Status)] = "status";
+    roles[static_cast<int>(Roles::ExecutionTime)] = "executionTime";
 
     return roles;
 }
@@ -80,6 +81,10 @@ QVariant TestResultsTreeViewModel::data(const QModelIndex &index, int role) cons
     case Roles::Status:
         if (item->property("type") == QString("test"))
             return item->property("status");
+        break;
+
+    case Roles::ExecutionTime:
+        return item->property("executionTime");
         break;
     }
 
@@ -167,7 +172,11 @@ bool TestResultsTreeViewModel::gotoSourceFileForRow(const QModelIndex &index)
             process.start("C:/Qt/Tools/QtCreator/bin/qtcreator.exe", arguments);
             process.waitForFinished();
         }
+        else
+            return false;
     }
+
+    return true;
 }
 
 

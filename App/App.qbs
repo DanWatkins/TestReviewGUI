@@ -26,5 +26,7 @@ Application {
 	Depends { name: "Qt.core" }
 	Depends { name: "Qt.quick" }
 	Depends { name: "Qt.widgets" }
+
+    Depends { name: "ValpineBase" }
 	Depends { name: "QtTestReviewGUI_Lib" }
 }
