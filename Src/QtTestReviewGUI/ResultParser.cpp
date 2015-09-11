@@ -34,11 +34,15 @@ bool ResultParser::parseFile(const QString &filepath, QObject *treeItem)
     }
 
     const QJsonObject rootObject = doc.object();
-    auto dateTime_started = QDateTime::fromString(rootObject["dateTime_started"].toString(),
-            vbase::test::Suite::dateFormat());
+    treeItem->setProperty("dateTime_started", QDateTime::fromString(rootObject["dateTime_started"].toString(),
+            vbase::test::Suite::dateFormat()));
 
-    auto dateTime_finished = QDateTime::fromString(rootObject["dateTime_finished"].toString(),
-            vbase::test::Suite::dateFormat());
+    {
+        QString v = rootObject["dateTime_finished"].toString();
+        QString dfmt = vbase::test::Suite::dateFormat();
+        QDateTime dt = QDateTime::fromString(v, dfmt);
+        treeItem->setProperty("dateTime_finished", QVariant(dt));
+    }
 
     for (const auto &testClassResult : rootObject["results"].toArray())
         parseTestClassJsonObject(testClassResult.toObject(), treeItem);
@@ -54,6 +58,9 @@ void ResultParser::parseTestClassJsonObject(
     treeItemClass->setProperty("type", "class");
     treeItemClass->setProperty("name", testClassJsonObject["className"].toString());
 
+    int totalExecutionTime = 0;
+
+    //read all of the tests
     for (const auto &iter : testClassJsonObject["results"].toArray())
     {
         auto testResultJsonObject = iter.toObject();
@@ -64,6 +71,8 @@ void ResultParser::parseTestClassJsonObject(
         treeItemTest->setProperty("name", testResultJsonObject["name"].toString());
         treeItemTest->setProperty("executionTime", testResultJsonObject["executionTime"].toString());
 
+        totalExecutionTime += treeItemTest->property("executionTime").toInt();
+
         //FIXME
         if (treeItemTest->property("status").toString() == "failed")
         {
@@ -73,4 +82,6 @@ void ResultParser::parseTestClassJsonObject(
             treeItemTest->setProperty("message", testResultJsonObject["message"].toArray());
         }
     }
+
+    treeItemClass->setProperty("executionTime", QVariant(totalExecutionTime));
 }

@@ -9,6 +9,7 @@
 #include <QtCore/QAbstractItemModel>
 #include <QtCore/QMap>
 #include <QtCore/QScopedPointer>
+#include <QtCore/QDateTime>
 
 #include "TreeItem.h"
 
@@ -20,7 +21,9 @@ public:
     friend class ResultParser;
     TestResultsTreeViewModel(QObject *parent=nullptr);
 
-    Q_PROPERTY(QString statusText READ statusText NOTIFY statusTextChanged)
+    Q_PROPERTY(QString statusText READ statusText NOTIFY fileParsed)
+    Q_PROPERTY(QDateTime dateTime_started READ dateTime_started NOTIFY fileParsed)
+    Q_PROPERTY(QDateTime dateTime_finished READ dateTime_finished NOTIFY fileParsed)
 
     int rowCount(const QModelIndex &parent) const override;
     int columnCount(const QModelIndex &parent) const override;
@@ -34,9 +37,11 @@ public:
     Q_INVOKABLE bool gotoSourceFileForRow(const QModelIndex &index);
 
     QString statusText() const;
+    QDateTime dateTime_started() const { return mRootTreeItem->property("dateTime_started").toDateTime(); }
+    QDateTime dateTime_finished() const { return mRootTreeItem->property("dateTime_finished").toDateTime(); }
 
 signals:
-    void statusTextChanged();
+    void fileParsed();
 
 private:
     QObject *mRootTreeItem;

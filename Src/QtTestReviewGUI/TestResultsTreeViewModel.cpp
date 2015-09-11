@@ -146,7 +146,7 @@ void TestResultsTreeViewModel::parseFile(const QString &filepath)
     ResultParser parser;
     parser.parseFile(filepath, mRootTreeItem);
 
-    emit statusTextChanged();
+    emit fileParsed();
 
     QAbstractItemModel::endResetModel();
 }

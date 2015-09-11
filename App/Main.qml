@@ -61,6 +61,10 @@ ApplicationWindow {
         anchors.margins: 5
 
         model: TestResultsTreeViewModel {}
+
+        Component.onCompleted: {
+            model.parseFile(qsTr("C:/Users/Dan/Desktop/file.json"));
+        }
     }
 
 
@@ -102,6 +106,21 @@ ApplicationWindow {
 
             Label {
                 id: label_filePath
+            }
+
+            Label {
+                text: {
+                    var t1 = testTableView.model.dateTime_started.getTime();
+                    var t2 = testTableView.model.dateTime_finished.getTime();
+
+                    return "Total Execution Time (ms): " + (t2-t1);
+                }
+                color: "green"
+            }
+
+            Label {
+                text: "Execution DateTime: " + testTableView.model.dateTime_finished
+                color: "blue"
             }
         }
     }
