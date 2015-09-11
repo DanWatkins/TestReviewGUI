@@ -113,14 +113,12 @@ ApplicationWindow {
                     var t1 = testTableView.model.dateTime_started.getTime();
                     var t2 = testTableView.model.dateTime_finished.getTime();
 
-                    return "Total Execution Time (ms): " + (t2-t1);
+                    return "Total Execution Time (ms): <font color=\"blue\">" + (t2-t1) + "</font>";
                 }
-                color: "green"
             }
 
             Label {
-                text: "Execution DateTime: " + testTableView.model.dateTime_finished
-                color: "blue"
+                text: "Execution DateTime: <font color=\"blue\">" + testTableView.model.dateTime_finished + "</font>"
             }
         }
     }

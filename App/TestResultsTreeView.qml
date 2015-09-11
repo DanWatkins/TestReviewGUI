@@ -33,12 +33,6 @@ TreeView {
         movable: false
 
         delegate: Item {
-            Text {
-                text: styleData.value
-                anchors.centerIn: parent
-                horizontalAlignment: Text.AlignHCenter
-            }
-
             Rectangle {
                 anchors {
                     left: parent.left
@@ -51,12 +45,18 @@ TreeView {
 
                 color: {
                     if (styleData.value === qsTr("failed"))
-                        return '#60FF3300'
+                        return '#90FF3300'
                     else if (styleData.value === qsTr("passed"))
-                        return '#6000CC00'
+                        return '#9000CC00'
 
                     return '#00000000'
                 }
+            }
+
+            Text {
+                text: styleData.value
+                anchors.centerIn: parent
+                horizontalAlignment: Text.AlignHCenter
             }
         }
     }
@@ -87,9 +87,9 @@ TreeView {
             color: {
                 if (styleData.selected)
                     return 'lightblue'
-//                else if (currentIndex)
-//                    return '#D5D5D5'
-//                else
+                else if (model.class !== qsTr(""))
+                    return '#D5D5D5'
+                else
                     return 'white'
             }
         }
