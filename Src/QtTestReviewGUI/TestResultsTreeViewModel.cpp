@@ -92,6 +92,27 @@ QVariant TestResultsTreeViewModel::data(const QModelIndex &index, int role) cons
 }
 
 
+QVariant TestResultsTreeViewModel::internalProperty(const QModelIndex &index, const QString &property) const
+{
+    if (!index.isValid())
+        return QVariant("");
+
+    return static_cast<QObject*>(index.internalPointer())->property(property.toStdString().c_str());
+
+//    QMap<QString,int> pack;
+//    pack["class"] = static_cast<int>(Roles::Class);
+//    pack["test"] = static_cast<int>(Roles::Test);
+//    pack["status"] = static_cast<int>(Roles::Status);
+//    pack["executionTime"] = static_cast<int>(Roles::ExecutionTime);
+
+//    auto iter = pack.find(role.toLower());
+//    if (iter != pack.end())
+//        return data(index, iter.value());
+
+//    return QVariant("");
+}
+
+
 QModelIndex TestResultsTreeViewModel::index(int row, int column, const QModelIndex &parent) const
 {
     if (!hasIndex(row, column, parent))

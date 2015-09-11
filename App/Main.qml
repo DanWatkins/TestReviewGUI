@@ -55,18 +55,31 @@ ApplicationWindow {
         }
     }
 
-    TestResultsTreeView {
-        id: testTableView
+    SplitView {
         anchors.fill: parent
-        anchors.margins: 5
+        orientation: Qt.Vertical
 
-        model: TestResultsTreeViewModel {}
+        TestResultsTreeView {
+            id: testTableView
+            Layout.minimumHeight: 200
+            Layout.fillHeight: true
 
-        Component.onCompleted: {
-            model.parseFile(qsTr("C:/Users/Dan/Desktop/file.json"));
+            model: TestResultsTreeViewModel {}
+
+            onCurrentIndexChanged: {
+                messages.showMessages(model.internalProperty(currentIndex, "message"));
+            }
+
+            Component.onCompleted: {
+                model.parseFile(qsTr("C:/Users/Dan/Desktop/file.json"));
+            }
+        }
+
+        Messages {
+            id: messages
+            Layout.minimumHeight: 100
         }
     }
-
 
     FileDialog {
         id: fileDialog
