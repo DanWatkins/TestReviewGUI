@@ -10,26 +10,28 @@ import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.1
 import QtTestReviewGUI 1.0
 
-GroupBox {
-    title: "Messages"
-
+Item {
     function showMessages(messages) {
-        console.log("Showing messages");
-        console.log(messages);
+        //listView1.model = messages;
 
-        listView1.model = messages;
+        textEdit1.remove(0, textEdit1.length);
+
+        for (var i in messages) {
+            textEdit1.append(messages[i]);
+        }
     }
 
-    ListView {
-        id: listView1
+    GroupBox {
+        title: "Messages"
         anchors.fill: parent
+        anchors.margins: 5
 
-        delegate: Rectangle {
-            height: 20
-            Layout.fillWidth: true
-            Text {
-                text: modelData
-            }
+        TextArea {
+            id: textEdit1
+            anchors.fill: parent
+            anchors.margins: 2
+
+            readOnly: true
         }
     }
 }
