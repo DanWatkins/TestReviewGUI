@@ -9,12 +9,15 @@ Application {
         "../Src/"
     ]
 
+    property var qmlImportPaths: [
+        path + "/../Ext/ValpineBase/Src/",
+    ]
+
     Group {
         name: "C++"
         prefix: "**/"
         files: ["*.cpp", "*.h"]
     }
-
 
     Group {
         name: "Resources"
