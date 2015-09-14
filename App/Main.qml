@@ -8,14 +8,27 @@ import QtQuick.Controls 1.4
 import QtQuick.Window 2.2
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.1
+
+import ValpineBase 1.0
 import QtTestReviewGUI 1.0
 
 ApplicationWindow {
     id: root
-    title: qsTr("QtTestReviewGUI")
+	title: qsTr("QtTestReviewGUI - v" + appVersion)
     width: 640
     height: 480
     visible: true
+
+
+	property var savedFilepath: qsTr("")
+
+
+	function doFile(filepath) {
+		console.log("Doing file " + filepath);
+		savedFilepath = filepath;
+		testTableView.model.parseFile(savedFilepath);
+
+	}
 
     menuBar: MenuBar {
         Menu {
@@ -52,6 +65,15 @@ ApplicationWindow {
                 checkable: true
                 checked: true
             }
+
+			MenuItem {
+				text: "Refresh"
+				shortcut: "F5"
+
+				onTriggered: {
+					doFile(savedFilepath);
+				}
+			}
         }
     }
 
@@ -90,24 +112,23 @@ ApplicationWindow {
         selectedNameFilter: "All files (*)"
 
         onAccepted: {  
-            testTableView.model.parseFile(Qt.resolvedUrl(fileUrl));
-            label_filePath.text = fileUrl
+			doFile(Qt.resolvedUrl(fileUrl));
         }
     }
 
-    Window {
-        id: settingsDialog
-        modality: Qt.WindowModal
-        title: "Settings"
-        minimumWidth: pane.width
-        maximumWidth: pane.width
-        minimumHeight: pane.height
-        maximumHeight: pane.height
+	Window {
+		id: settingsDialog
+		modality: Qt.WindowModal
+		title: "Settings"
+		minimumWidth: pane.width
+		maximumWidth: pane.width
+		minimumHeight: pane.height
+		maximumHeight: pane.height
 
-        SettingsPane {
-            id: pane
-        }
-    }
+		SettingsPane {
+			id: pane
+		}
+	}
 
     statusBar: StatusBar {
         Row {
@@ -115,10 +136,6 @@ ApplicationWindow {
 
             Label {
                 text: testTableView.model.statusText
-            }
-
-            Label {
-                id: label_filePath
             }
 
             Label {

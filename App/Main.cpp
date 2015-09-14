@@ -7,6 +7,8 @@
 #include <QQmlApplicationEngine>
 #include <QtQml>
 
+#include <ValpineBase/ValpineBase.h>
+
 #include <QtTestReviewGUI/TestResultsTreeViewModel.h>
 #include <QtTestReviewGUI/Appstate.h>
 
@@ -23,9 +25,14 @@ int main(int argc, char *argv[])
     }
 
     QApplication app(argc, argv);
+	app.setApplicationVersion("0.8.0");	//TODO clean up
 
     QQmlApplicationEngine engine;
+    ValpineBase::registerQmlModule(&engine);
     qmlRegisterType<TestResultsTreeViewModel>("QtTestReviewGUI", 1, 0, "TestResultsTreeViewModel");
+
+	engine.rootContext()->setContextProperty("appVersion", app.applicationVersion());
+
     engine.load(QUrl(QStringLiteral("qrc:/Main.qml")));
 
     return app.exec();
