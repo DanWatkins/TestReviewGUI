@@ -19,11 +19,6 @@ int main(int argc, char *argv[])
     for (int i=0; i<argc; i++)
         qDebug() << argv[i];
 
-    if (argc >= 2)
-    {
-        Appstate::openFilePath = QString("file:///") + argv[1];
-    }
-
     QApplication app(argc, argv);
 	app.setApplicationVersion("0.8.0");	//TODO clean up
 
@@ -31,7 +26,13 @@ int main(int argc, char *argv[])
     ValpineBase::registerQmlModule(&engine);
     qmlRegisterType<TestResultsTreeViewModel>("QtTestReviewGUI", 1, 0, "TestResultsTreeViewModel");
 
-	engine.rootContext()->setContextProperty("appVersion", app.applicationVersion());
+	//set various context properties
+	{
+		engine.rootContext()->setContextProperty("appVersion", app.applicationVersion());
+
+		QString openFilepath = (argc >= 2) ? QString("file:///") + argv[1] : "";
+		engine.rootContext()->setContextProperty("openFilepath", openFilepath);
+	}
 
     engine.load(QUrl(QStringLiteral("qrc:/Main.qml")));
 

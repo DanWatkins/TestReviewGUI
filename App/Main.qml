@@ -19,6 +19,11 @@ ApplicationWindow {
     height: 480
     visible: true
 
+	Component.onCompleted: {
+		if (openFilepath) {
+			doFile(openFilepath);
+		}
+	}
 
 	property var savedFilepath: qsTr("")
 
