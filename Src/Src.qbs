@@ -1,7 +1,7 @@
 import qbs 1.0
 
 StaticLibrary {
-	name: "QtTestReviewGUI_Lib"
+	name: "TestReviewGUI_Lib"
 	cpp.cxxLanguageVersion: "c++14"
 	cpp.includePaths: [
         "../Src/",

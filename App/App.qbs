@@ -1,7 +1,7 @@
 import qbs 1.0
 
 Application {
-	name: "QtTestReviewGUI"
+	name: "TestReviewGUI"
 
 	cpp.cxxLanguageVersion: "c++14"
 	cpp.includePaths: [
@@ -32,5 +32,5 @@ Application {
 	Depends { name: "Qt.widgets" }
 
 	Depends { name: "ValpineBase" }
-	Depends { name: "QtTestReviewGUI_Lib" }
+	Depends { name: "TestReviewGUI_Lib" }
 }
