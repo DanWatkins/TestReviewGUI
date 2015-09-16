@@ -87,7 +87,7 @@ TreeView {
             color: {
                 if (styleData.selected)
                     return 'lightblue'
-                else if (model.class !== qsTr(""))
+				else if (model && model.class !== qsTr(""))
                     return '#D5D5D5'
                 else
                     return 'white'

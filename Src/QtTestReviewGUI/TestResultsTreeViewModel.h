@@ -30,7 +30,6 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
     QVariant data(const QModelIndex &index, int role) const override;
-    Q_INVOKABLE QVariant internalProperty(const QModelIndex &index, const QString &property) const;
     QModelIndex index(int row, int column, const QModelIndex &parent) const override;
     QModelIndex parent(const QModelIndex &index) const override;
 
@@ -46,6 +45,10 @@ signals:
 
 private:
     QObject *mRootTreeItem;
+
+	//TODO transition these to actual settings
+	bool mShowFailedTests = false;
+	bool mShowPassedTests = true;
 
     enum class Roles
     {

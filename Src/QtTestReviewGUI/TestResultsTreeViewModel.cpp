@@ -35,7 +35,27 @@ int TestResultsTreeViewModel::rowCount(const QModelIndex &parent) const
     if (!parent.isValid())
         item = mRootTreeItem;
     else
-        item = static_cast<QObject*>(parent.internalPointer());
+	{
+		item = static_cast<QObject*>(parent.internalPointer());
+
+		if (item->property("type").toString() == "class")
+		{
+			int count = 0;
+
+			for (auto child : item->children())
+			{
+				QString status = child->property("status").toString();
+
+				if ((mShowFailedTests && status == "failed") ||
+					(mShowPassedTests && status == "passed"))
+				{
+					count++;
+				}
+			}
+
+			return count;
+		}
+	}
 
     return item->children().count();
 }
@@ -92,27 +112,6 @@ QVariant TestResultsTreeViewModel::data(const QModelIndex &index, int role) cons
 }
 
 
-QVariant TestResultsTreeViewModel::internalProperty(const QModelIndex &index, const QString &property) const
-{
-    if (!index.isValid())
-        return QVariant("");
-
-    return static_cast<QObject*>(index.internalPointer())->property(property.toStdString().c_str());
-
-//    QMap<QString,int> pack;
-//    pack["class"] = static_cast<int>(Roles::Class);
-//    pack["test"] = static_cast<int>(Roles::Test);
-//    pack["status"] = static_cast<int>(Roles::Status);
-//    pack["executionTime"] = static_cast<int>(Roles::ExecutionTime);
-
-//    auto iter = pack.find(role.toLower());
-//    if (iter != pack.end())
-//        return data(index, iter.value());
-
-//    return QVariant("");
-}
-
-
 QModelIndex TestResultsTreeViewModel::index(int row, int column, const QModelIndex &parent) const
 {
     if (!hasIndex(row, column, parent))
@@ -125,16 +124,35 @@ QModelIndex TestResultsTreeViewModel::index(int row, int column, const QModelInd
     else
         parentItem = static_cast<QObject*>(parent.internalPointer());
 
-    QObject *childItem = parentItem->children().at(row);
+	if (parentItem->property("type").toString() == "class")
+	{
+		int effectiveRow = -1;
 
-    if (childItem)
-    {
-        return createIndex(row, column, childItem);
-    }
-    else
-    {
-        return QModelIndex();
-    }
+		for (auto child : parentItem->children())
+		{
+			QString status = child->property("status").toString();
+
+			if ((mShowFailedTests && status == "failed") ||
+				(mShowPassedTests && status == "passed"))
+			{
+				effectiveRow++;
+			}
+
+			if (effectiveRow == row)
+				return createIndex(row, column, child);
+		}
+	}
+	else
+	{
+		QObject *childItem = parentItem->children().at(row);
+
+		if (childItem)
+		{
+			return createIndex(row, column, childItem);
+		}
+	}
+
+	return QModelIndex();
 }
 
 
