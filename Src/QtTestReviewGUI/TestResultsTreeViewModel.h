@@ -38,7 +38,7 @@ public:
 
     QString statusText() const;
     QDateTime dateTime_started() const { return mRootTreeItem->property("dateTime_started").toDateTime(); }
-    QDateTime dateTime_finished() const { return mRootTreeItem->property("dateTime_finished").toDateTime(); }
+	QDateTime dateTime_finished() const { return mRootTreeItem->property("dateTime_finished").toDateTime(); }
 
 signals:
     void fileParsed();
@@ -58,5 +58,7 @@ private:
         ExecutionTime
     };
 };
+
+
 
 #endif

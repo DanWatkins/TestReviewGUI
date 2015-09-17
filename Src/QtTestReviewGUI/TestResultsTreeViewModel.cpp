@@ -248,6 +248,8 @@ QString TestResultsTreeViewModel::statusText() const
     return statusText;
 }
 
+
+
 //
 // # private #
 //
