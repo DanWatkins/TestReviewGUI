@@ -28,3 +28,4 @@
 *.app
 QtTestReviewGUI.pro.user
 QtTestReviewGUI.qbs.user
+*.user

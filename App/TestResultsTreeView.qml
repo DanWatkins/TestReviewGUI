@@ -12,6 +12,12 @@ import QtTestReviewGUI 1.0
 TreeView {
     id: tableView
 
+	function expandAll() {
+		for (var idx=0; idx < model.rowCount(); idx++) {
+			expand(model.index(idx, 0));
+		}
+	}
+
     TableViewColumn {
         role: "class"
         title: "Class"

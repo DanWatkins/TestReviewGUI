@@ -32,6 +32,7 @@ ApplicationWindow {
 		console.log("Doing file " + filepath);
 		savedFilepath = filepath;
 		testTableView.model.parseFile(savedFilepath);
+		testTableView.expandAll();
 
 	}
 

@@ -47,7 +47,7 @@ private:
     QObject *mRootTreeItem;
 
 	//TODO transition these to actual settings
-	bool mShowFailedTests = false;
+	bool mShowFailedTests = true;
 	bool mShowPassedTests = true;
 
     enum class Roles
