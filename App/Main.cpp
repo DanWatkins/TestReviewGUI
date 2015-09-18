@@ -6,6 +6,8 @@
 #include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QtQml>
+#include <QtCore/QWaitCondition>
+#include <QtConcurrent/QtConcurrent>
 
 #include <ValpineBase/ValpineBase.h>
 #include <ValpineBase/SingleInstance.h>
@@ -15,42 +17,41 @@
 
 int main(int argc, char *argv[])
 {
-    qDebug() << "Arguments:";
+	qDebug() << "Arguments:";
 
-    for (int i=0; i<argc; i++)
-        qDebug() << argv[i];
+	for (int i=0; i<argc; i++)
+		qDebug() << argv[i];
 
-    QApplication app(argc, argv);
-    app.setApplicationVersion("0.8.0");	//TODO clean up
+	QApplication app(argc, argv);
+	app.setApplicationVersion("0.8.0");	//TODO clean up
 
-    QString appFullName = "com.danwatkins.testreviewgui";
-    vbase::SingleInstance singleInstance;
+	QString appFullName = "com.danwatkins.testreviewgui";
+	vbase::SingleInstance singleInstance;
 
-    if (singleInstance.hasPrevious(appFullName, QApplication::arguments()))
-    {
-		qDebug() << "Previous instance found";
-		return 0;
-    }
-    else
-    {
-		qDebug() << "This is the only instance";
-    }
+	//ensure we are only running a single instance
+	{
+		if (singleInstance.hasPrevious(appFullName, QApplication::arguments()))
+			return 0;
 
-	singleInstance.listen(appFullName);
+		singleInstance.listen(appFullName);
+	}
 
-    QQmlApplicationEngine engine;
-    ValpineBase::registerQmlModule(&engine);
-    qmlRegisterType<TestResultsTreeViewModel>("QtTestReviewGUI", 1, 0, "TestResultsTreeViewModel");
 
-    //set various context properties
-    {
-	    engine.rootContext()->setContextProperty("appVersion", app.applicationVersion());
+	QQmlApplicationEngine engine;
+	vbase::ValpineBase::registerQmlModule(&engine);
+	qmlRegisterType<TestResultsTreeViewModel>("QtTestReviewGUI", 1, 0,
+											  "TestResultsTreeViewModel");
 
-	    QString openFilepath = (argc >= 2) ? QString("file:///") + argv[1] : "";
-	    engine.rootContext()->setContextProperty("openFilepath", openFilepath);
-    }
+	//set various context properties
+	{
+		engine.rootContext()->setContextProperty("appVersion", app.applicationVersion());
+		engine.rootContext()->setContextProperty("appSingleInstance", &singleInstance);
 
-    engine.load(QUrl(QStringLiteral("qrc:/Main.qml")));
+		QString openFilepath = (argc >= 2) ? QString("file:///") + argv[1] : "";
+		engine.rootContext()->setContextProperty("openFilepath", openFilepath);
+	}
 
-    return app.exec();
+	engine.load(QUrl(QStringLiteral("qrc:/Main.qml")));
+
+	return app.exec();
 }

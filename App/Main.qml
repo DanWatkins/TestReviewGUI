@@ -33,7 +33,21 @@ ApplicationWindow {
 		savedFilepath = filepath;
 		testTableView.model.parseFile(savedFilepath);
 		testTableView.expandAll();
+	}
 
+	//consider making a root c++ type to replace AplicationWindow
+	Connections {
+		target: appSingleInstance
+
+		onReceivedArguments: {
+			if (arguments[0].length == 2) {
+				doFile(arguments[0][1]);
+			}
+
+			for (var n=0; n<arguments[0].length; n++) {
+				console.log(arguments[0][n]);
+			}
+		}
 	}
 
     menuBar: MenuBar {
@@ -99,6 +113,10 @@ ApplicationWindow {
             id: messages
             Layout.minimumHeight: 100
         }
+
+		Triangle {
+			Layout.minimumHeight: 200
+		}
     }
 
     FileDialog {
