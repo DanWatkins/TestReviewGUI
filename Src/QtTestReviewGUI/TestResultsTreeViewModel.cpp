@@ -173,19 +173,28 @@ QModelIndex TestResultsTreeViewModel::parent(const QModelIndex &index) const
 }
 
 
+QVariant TestResultsTreeViewModel::TestResultsTreeViewModel::internalProperty(const QModelIndex&index, const QString&property) const
+{
+	if (!index.isValid())
+		return QVariant("");
+
+	return static_cast<QObject*>(index.internalPointer())->property(property.toStdString().c_str());
+}
+
+
 void TestResultsTreeViewModel::parseFile(const QString &filepath)
 {
-    QAbstractItemModel::beginResetModel();
+	QAbstractItemModel::beginResetModel();
 
-    if (mRootTreeItem)
-        delete mRootTreeItem;
+	if (mRootTreeItem)
+		delete mRootTreeItem;
 
-    mRootTreeItem = new QObject(this);
+	mRootTreeItem = new QObject(this);
 
-    ResultParser parser;
-    parser.parseFile(filepath, mRootTreeItem);
+	ResultParser parser;
+	parser.parseFile(filepath, mRootTreeItem);
 
-    emit fileParsed();
+	emit fileParsed();
 
     QAbstractItemModel::endResetModel();
 }

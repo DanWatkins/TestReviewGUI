@@ -33,6 +33,7 @@ public:
     QModelIndex index(int row, int column, const QModelIndex &parent) const override;
     QModelIndex parent(const QModelIndex &index) const override;
 
+	Q_INVOKABLE QVariant internalProperty(const QModelIndex &index, const QString &property) const;
     Q_INVOKABLE void parseFile(const QString &filepath);
     Q_INVOKABLE bool gotoSourceFileForRow(const QModelIndex &index);
 

@@ -14,6 +14,8 @@ Item {
     function showMessages(messages) {
         //listView1.model = messages;
 
+		console.log("Showing messages: " + messages);
+
         textEdit1.remove(0, textEdit1.length);
 
         for (var i in messages) {

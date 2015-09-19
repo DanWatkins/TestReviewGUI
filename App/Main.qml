@@ -107,6 +107,14 @@ ApplicationWindow {
             Layout.fillHeight: true
 
             model: TestResultsTreeViewModel {}
+
+			onCurrentIndexChanged: {
+				messages.showMessages(model.internalProperty(currentIndex, "message"));
+			}
+
+			Component.onCompleted: {
+				model.parseFile(qsTr("C:/Users/Dan/Desktop/file.json"));
+			}
         }
 
         Messages {

@@ -1,8 +1,3 @@
 <RCC>
-    <qresource prefix="/">
-        <file>FakeResults/Results_01.txt</file>
-        <file>FakeResults/Results_02.txt</file>
-        <file>FakeResults/Results_03.txt</file>
-        <file>FakeResults/Results_QSKIP.txt</file>
-    </qresource>
+    <qresource prefix="/"/>
 </RCC>
