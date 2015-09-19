@@ -113,10 +113,6 @@ ApplicationWindow {
             id: messages
             Layout.minimumHeight: 100
         }
-
-		Triangle {
-			Layout.minimumHeight: 200
-		}
     }
 
     FileDialog {

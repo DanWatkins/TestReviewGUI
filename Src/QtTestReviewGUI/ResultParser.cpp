@@ -73,7 +73,6 @@ void ResultParser::parseTestClassJsonObject(
 
         totalExecutionTime += treeItemTest->property("executionTime").toInt();
 
-        //FIXME
         if (treeItemTest->property("status").toString() == "failed")
         {
             treeItemTest->setProperty("filePath", testResultJsonObject["filePath"].toString());

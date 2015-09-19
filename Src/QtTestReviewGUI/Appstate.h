@@ -14,7 +14,7 @@ class Appstate : public QObject
     Q_OBJECT
 
 public:
-    static QString openFilePath;//TODO bring in ValpineBase so this can be a fancy Property<QString>!
+	static QString openFilePath;
 };
 
 #endif

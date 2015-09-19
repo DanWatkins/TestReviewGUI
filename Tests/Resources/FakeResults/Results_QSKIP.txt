@@ -1,6 +1,0 @@
-********* Start testing of Test_ResultParser *********
-Config: Using QtTest library 5.5.0, Qt 5.5.0 (i386-little_endian-ilp32 shared (dynamic) debug build; by GCC 4.9.2)
-SKIP   : Nalgene::doStuffForXPOnly() Not running on Windows XP
-E:/Code/Nalegene.h(94) : failure location
-Totals: 0 passed, 0 failed, 1 skipped, 0 blacklisted
-********* Finished testing of Test_ResultParser *********
