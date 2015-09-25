@@ -3,6 +3,8 @@
 // This file is licensed under the MIT License.
 //=============================================================================|
 
+#include <memory>
+
 #include <QtCore/QFile>
 #include <QtCore/QUrl>
 #include <QtCore/QJsonDocument>
@@ -61,7 +63,7 @@ void ResultParser::parseTestClassJsonObject(
     int totalExecutionTime = 0;
 
     //read all of the tests
-    for (const auto &iter : testClassJsonObject["results"].toArray())
+	for (const auto &iter : testClassJsonObject["tests"].toArray())
     {
         auto testResultJsonObject = iter.toObject();
         auto *treeItemTest = new QObject(treeItemClass);
@@ -69,17 +71,25 @@ void ResultParser::parseTestClassJsonObject(
         treeItemTest->setProperty("type", "test");
         treeItemTest->setProperty("status", testResultJsonObject["status"].toString());
         treeItemTest->setProperty("name", testResultJsonObject["name"].toString());
-        treeItemTest->setProperty("executionTime", testResultJsonObject["executionTime"].toString());
+		treeItemTest->setProperty("executionTime", testResultJsonObject["executionTime"].toInt());
 
         totalExecutionTime += treeItemTest->property("executionTime").toInt();
 
-        if (treeItemTest->property("status").toString() == "failed")
-        {
-            treeItemTest->setProperty("filePath", testResultJsonObject["filePath"].toString());
-            treeItemTest->setProperty("fileLineNumber", testResultJsonObject["lineNumber"].toInt());
+		for (const auto &failureIter : testResultJsonObject["failures"].toArray())
+		{
+			auto failureJsonObject = failureIter.toObject();
+			auto *treeItemFailure = new QObject(treeItemTest);
 
-            treeItemTest->setProperty("message", testResultJsonObject["message"].toArray());
-        }
+			treeItemFailure->setProperty("type", "failure");
+			treeItemFailure->setProperty("filePath", failureJsonObject["filePath"].toString());
+			treeItemFailure->setProperty("lineNumber", failureJsonObject["lineNumber"].toString());
+
+			QStringList messages;
+			for (auto varient : failureJsonObject["message"].toArray().toVariantList())
+				messages.append(varient.toString());
+
+			treeItemFailure->setProperty("message", messages);
+		}
     }
 
     treeItemClass->setProperty("executionTime", QVariant(totalExecutionTime));

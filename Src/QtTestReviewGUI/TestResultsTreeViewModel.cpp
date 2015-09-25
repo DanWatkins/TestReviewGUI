@@ -57,7 +57,10 @@ int TestResultsTreeViewModel::rowCount(const QModelIndex &parent) const
 		}
 	}
 
-    return item->children().count();
+	if (item->property("type").toString() == "test")
+		return 0;
+
+	return item->children().count();
 }
 
 
@@ -104,7 +107,7 @@ QVariant TestResultsTreeViewModel::data(const QModelIndex &index, int role) cons
         break;
 
     case Roles::ExecutionTime:
-        return item->property("executionTime");
+		return item->property("executionTime");
         break;
     }
 
