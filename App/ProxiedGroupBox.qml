@@ -8,21 +8,21 @@ import QtQuick.Controls 1.4
 import QtQuick.Window 2.2
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.1
+
+import ValpineBase 1.0
 import QtTestReviewGUI 1.0
 
+Item {
+	property alias groupBox: internalGroupBox
+	default property alias children: internalItem.children
 
-TextArea {
-	id: textEdit1
-	anchors.fill: parent
-	anchors.margins: 2
+	GroupBox {
+		id: internalGroupBox
+		anchors.fill: parent
 
-	readOnly: true
-
-	function showMessages(messages) {
-		textEdit1.remove(0, textEdit1.length);
-
-		for (var i in messages) {
-			textEdit1.append(messages[i]);
+		Item {
+			id: internalItem
+			anchors.fill: parent
 		}
 	}
 }

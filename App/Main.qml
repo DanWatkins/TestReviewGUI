@@ -15,8 +15,8 @@ import QtTestReviewGUI 1.0
 ApplicationWindow {
     id: root
 	title: qsTr("QtTestReviewGUI - v" + appVersion)
-    width: 640
-    height: 480
+	width: 750
+	height: 400
     visible: true
 
 	Component.onCompleted: {
@@ -99,28 +99,42 @@ ApplicationWindow {
 
     SplitView {
         anchors.fill: parent
-        orientation: Qt.Vertical
+		orientation: Qt.Horizontal
 
-        TestResultsTreeView {
-            id: testTableView
-            Layout.minimumHeight: 200
-            Layout.fillHeight: true
+		ProxiedGroupBox {
+			groupBox.title: "Tests"
+			groupBox.anchors.margins: 5
 
-            model: TestResultsTreeViewModel {}
+			Layout.minimumWidth: 200
+			Layout.fillWidth: true
 
-			onCurrentIndexChanged: {
-				messages.showMessages(model.internalProperty(currentIndex, "message"));
+			TestResultsTreeView {
+				id: testTableView
+				anchors.fill: parent
+				model: TestResultsTreeViewModel {}
+
+				onCurrentIndexChanged: {
+					messages.showMessages(model.internalProperty(currentIndex, "message"));
+				}
+
+				Component.onCompleted: {
+					model.parseFile(qsTr("C:/Users/Dan/Desktop/file.json"));
+				}
 			}
+		}
 
-			Component.onCompleted: {
-				model.parseFile(qsTr("C:/Users/Dan/Desktop/file.json"));
+		ProxiedGroupBox {
+			groupBox.title: "Messages"
+			groupBox.anchors.margins: 5
+
+			width: 300
+			Layout.minimumWidth: 200
+
+			Messages {
+				id: messages
+				anchors.fill: parent
 			}
-        }
-
-        Messages {
-            id: messages
-            Layout.minimumHeight: 100
-        }
+		}
     }
 
     FileDialog {

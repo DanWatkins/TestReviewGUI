@@ -6,5 +6,6 @@
         <file>ColorPicker.qml</file>
         <file>PathPicker.qml</file>
         <file>Messages.qml</file>
+        <file>ProxiedGroupBox.qml</file>
     </qresource>
 </RCC>

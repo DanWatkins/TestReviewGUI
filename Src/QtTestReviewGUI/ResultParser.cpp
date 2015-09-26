@@ -92,6 +92,8 @@ void ResultParser::parseJsonObject_test(const QJsonObject &testJsonObject,
 	{
 		parseJsonObject_failure(failureIter.toObject(), treeItemTest);
 	}
+
+	int a;
 }
 
 

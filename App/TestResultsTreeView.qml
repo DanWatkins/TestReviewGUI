@@ -21,14 +21,14 @@ TreeView {
     TableViewColumn {
 		role: "name"
 		title: "Name"
-        width: 120
+		width: 200
         movable: false
     }
 
     TableViewColumn {
         role: "status"
         title: "Status"
-        width: 120
+		width: 100
         movable: false
 
         delegate: Item {
@@ -64,7 +64,7 @@ TreeView {
     TableViewColumn {
         role: "executionTime"
         title: "Execution Time (ms)"
-        width: 140
+		width: 120
         movable: false
     }
 
