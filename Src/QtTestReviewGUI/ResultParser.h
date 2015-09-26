@@ -14,7 +14,9 @@ public:
     bool parseFile(const QString &filepath, QObject *treeItem);
 
 private:
-    void parseTestClassJsonObject(const QJsonObject &testClassJsonObject, QObject *treeItem);
+	void parseJsonObject_class(const QJsonObject &testClassJsonObject, QObject *treeItem);
+	void parseJsonObject_test(const QJsonObject&testJsonObject, QObject*parentClass);
+	void parseJsonObject_failure(const QJsonObject&failureJsonObject, QObject*parentTest);
 };
 
 #endif

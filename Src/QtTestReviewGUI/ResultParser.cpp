@@ -47,51 +47,66 @@ bool ResultParser::parseFile(const QString &filepath, QObject *treeItem)
     }
 
     for (const auto &testClassResult : rootObject["results"].toArray())
-        parseTestClassJsonObject(testClassResult.toObject(), treeItem);
+		parseJsonObject_class(testClassResult.toObject(), treeItem);
 
     return true;
 }
 
 
-void ResultParser::parseTestClassJsonObject(
-        const QJsonObject &testClassJsonObject, QObject *treeItem)
+void ResultParser::parseJsonObject_class(const QJsonObject &classJsonObject,
+										 QObject *treeItem)
 {
-    auto *treeItemClass = new QObject(treeItem);
+	QObject *treeItemClass = new QObject(treeItem);
     treeItemClass->setProperty("type", "class");
-    treeItemClass->setProperty("name", testClassJsonObject["className"].toString());
-
-    int totalExecutionTime = 0;
+	treeItemClass->setProperty("name", classJsonObject["className"].toString());
 
     //read all of the tests
-	for (const auto &iter : testClassJsonObject["tests"].toArray())
+	for (const auto &iter : classJsonObject["tests"].toArray())
     {
-        auto testResultJsonObject = iter.toObject();
-        auto *treeItemTest = new QObject(treeItemClass);
-
-        treeItemTest->setProperty("type", "test");
-        treeItemTest->setProperty("status", testResultJsonObject["status"].toString());
-        treeItemTest->setProperty("name", testResultJsonObject["name"].toString());
-		treeItemTest->setProperty("executionTime", testResultJsonObject["executionTime"].toInt());
-
-        totalExecutionTime += treeItemTest->property("executionTime").toInt();
-
-		//go through all the messages
-		for (const auto &failureIter : testResultJsonObject["messages"].toArray())
-		{
-			auto failureJsonObject = failureIter.toObject();
-			auto *treeItemFailure = new QObject(treeItemTest);
-
-			treeItemFailure->setProperty("type", "failure");
-			treeItemFailure->setProperty("filePath", failureJsonObject["filePath"].toString());
-			treeItemFailure->setProperty("lineNumber", failureJsonObject["lineNumber"].toString());
-
-			QStringList messages;
-			for (auto varient : failureJsonObject["details"].toArray().toVariantList())
-				messages.append(varient.toString());
-
-			treeItemFailure->setProperty("details", messages);
-		}
+		parseJsonObject_test(iter.toObject(), treeItemClass);
     }
 
+	//calculate totals
+	int totalExecutionTime = 0;
+
+	for (const QObject *child : treeItemClass->children())
+	{
+		totalExecutionTime += child->property("executionTime").toInt();
+	}
+
     treeItemClass->setProperty("executionTime", QVariant(totalExecutionTime));
+}
+
+
+void ResultParser::parseJsonObject_test(const QJsonObject &testJsonObject,
+										QObject *parentClass)
+{
+	QObject *treeItemTest = new QObject(parentClass);
+	treeItemTest->setProperty("type", "test");
+	treeItemTest->setProperty("status", testJsonObject["status"].toString());
+	treeItemTest->setProperty("name", testJsonObject["name"].toString());
+	treeItemTest->setProperty("executionTime", testJsonObject["executionTime"].toInt());
+
+	//go through all the messages
+	for (const auto &failureIter : testJsonObject["messages"].toArray())
+	{
+		parseJsonObject_failure(failureIter.toObject(), treeItemTest);
+	}
+}
+
+
+void ResultParser::parseJsonObject_failure(const QJsonObject &failureJsonObject,
+										   QObject *parentTest)
+{
+	QObject *treeItemFailure = new QObject(parentTest);
+
+	treeItemFailure->setProperty("type", "failure");
+	treeItemFailure->setProperty("filePath", failureJsonObject["filePath"].toString());
+	treeItemFailure->setProperty("lineNumber", failureJsonObject["lineNumber"].toString());
+
+	QStringList messages;
+	for (auto varient : failureJsonObject["details"].toArray().toVariantList())
+		messages.append(varient.toString());
+
+	treeItemFailure->setProperty("details", messages);
 }
