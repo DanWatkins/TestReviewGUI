@@ -75,7 +75,8 @@ void ResultParser::parseTestClassJsonObject(
 
         totalExecutionTime += treeItemTest->property("executionTime").toInt();
 
-		for (const auto &failureIter : testResultJsonObject["failures"].toArray())
+		//go through all the messages
+		for (const auto &failureIter : testResultJsonObject["messages"].toArray())
 		{
 			auto failureJsonObject = failureIter.toObject();
 			auto *treeItemFailure = new QObject(treeItemTest);
@@ -85,10 +86,10 @@ void ResultParser::parseTestClassJsonObject(
 			treeItemFailure->setProperty("lineNumber", failureJsonObject["lineNumber"].toString());
 
 			QStringList messages;
-			for (auto varient : failureJsonObject["message"].toArray().toVariantList())
+			for (auto varient : failureJsonObject["details"].toArray().toVariantList())
 				messages.append(varient.toString());
 
-			treeItemFailure->setProperty("message", messages);
+			treeItemFailure->setProperty("details", messages);
 		}
     }
 

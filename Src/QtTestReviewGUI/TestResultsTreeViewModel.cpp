@@ -16,25 +16,25 @@
 //
 
 TestResultsTreeViewModel::TestResultsTreeViewModel(QObject *parent) :
-    QAbstractItemModel(parent),
-    mRootTreeItem(new QObject(this))
+	QAbstractItemModel(parent),
+	mRootTreeItem(new QObject(this))
 {
-    //TODO massive hack YO
-    if (Appstate::openFilePath != "")
-        parseFile(Appstate::openFilePath);
+	//TODO massive hack YO
+	if (Appstate::openFilePath != "")
+		parseFile(Appstate::openFilePath);
 }
 
 
 int TestResultsTreeViewModel::rowCount(const QModelIndex &parent) const
 {
-    if (parent.column() > 0)
-        return 0;
+	if (parent.column() > 0)
+		return 0;
 
-    QObject *item;
+	QObject *item;
 
-    if (!parent.isValid())
-        item = mRootTreeItem;
-    else
+	if (!parent.isValid())
+		item = mRootTreeItem;
+	else
 	{
 		item = static_cast<QObject*>(parent.internalPointer());
 
@@ -47,7 +47,7 @@ int TestResultsTreeViewModel::rowCount(const QModelIndex &parent) const
 				QString status = child->property("status").toString();
 
 				if ((mShowFailedTests && status == "failed") ||
-					(mShowPassedTests && status == "passed"))
+						(mShowPassedTests && status == "passed"))
 				{
 					count++;
 				}
@@ -66,66 +66,59 @@ int TestResultsTreeViewModel::rowCount(const QModelIndex &parent) const
 
 int TestResultsTreeViewModel::columnCount(const QModelIndex &parent) const
 {
-    return 4;
+	Q_UNUSED(parent);
+
+	return 3;
 }
 
 
 QHash<int, QByteArray> TestResultsTreeViewModel::roleNames() const
 {
-    QHash<int, QByteArray> roles;
-    roles[static_cast<int>(Roles::Class)] = "class";
-    roles[static_cast<int>(Roles::Test)] = "test";
-    roles[static_cast<int>(Roles::Status)] = "status";
-    roles[static_cast<int>(Roles::ExecutionTime)] = "executionTime";
+	QHash<int, QByteArray> roles;
+	roles[static_cast<int>(Roles::Name)] = "name";
+	roles[static_cast<int>(Roles::Status)] = "status";
+	roles[static_cast<int>(Roles::ExecutionTime)] = "executionTime";
 
-    return roles;
+	return roles;
 }
 
 
 QVariant TestResultsTreeViewModel::data(const QModelIndex &index, int role) const
 {
-    if (!index.isValid())
-        return QVariant();
+	if (!index.isValid())
+		return QVariant();
 
-    QObject *item = static_cast<QObject*>(index.internalPointer());
+	QObject *item = static_cast<QObject*>(index.internalPointer());
 
-    switch (static_cast<Roles>(role))
-    {
-    case Roles::Class:
-        if (item->property("type") == QString("class"))
-            return item->property("name");
-        break;
+	switch (static_cast<Roles>(role))
+	{
+	case Roles::Name:
+		return item->property("name");
 
-    case Roles::Test:
-        if (item->property("type") == QString("test"))
-            return item->property("name");
-        break;
+	case Roles::Status:
+		qDebug() << "type is " << item->property("type");
 
-    case Roles::Status:
-        if (item->property("type") == QString("test"))
-            return item->property("status");
-        break;
+		return item->property("status");
 
-    case Roles::ExecutionTime:
+	case Roles::ExecutionTime:
 		return item->property("executionTime");
-        break;
-    }
+	}
 
-    return QVariant("");
+	return QVariant("");
 }
 
 
 QModelIndex TestResultsTreeViewModel::index(int row, int column, const QModelIndex &parent) const
 {
-    if (!hasIndex(row, column, parent))
-        return QModelIndex();
+	if (!hasIndex(row, column, parent))
+		return QModelIndex();
 
-    QObject *parentItem;
+	QObject *parentItem;
 
-    if (!parent.isValid())
-        parentItem = mRootTreeItem;
-    else
-        parentItem = static_cast<QObject*>(parent.internalPointer());
+	if (!parent.isValid())
+		parentItem = mRootTreeItem;
+	else
+		parentItem = static_cast<QObject*>(parent.internalPointer());
 
 	if (parentItem->property("type").toString() == "class")
 	{
@@ -136,7 +129,7 @@ QModelIndex TestResultsTreeViewModel::index(int row, int column, const QModelInd
 			QString status = child->property("status").toString();
 
 			if ((mShowFailedTests && status == "failed") ||
-				(mShowPassedTests && status == "passed"))
+					(mShowPassedTests && status == "passed"))
 			{
 				effectiveRow++;
 			}
@@ -161,18 +154,18 @@ QModelIndex TestResultsTreeViewModel::index(int row, int column, const QModelInd
 
 QModelIndex TestResultsTreeViewModel::parent(const QModelIndex &index) const
 {
-    if (!index.isValid())
-        return QModelIndex();
+	if (!index.isValid())
+		return QModelIndex();
 
-    auto *childItem = static_cast<QObject*>(index.internalPointer());
-    auto *parentItem = childItem->parent();
+	auto *childItem = static_cast<QObject*>(index.internalPointer());
+	auto *parentItem = childItem->parent();
 
-    if (parentItem == mRootTreeItem)
-        return QModelIndex();
+	if (parentItem == mRootTreeItem)
+		return QModelIndex();
 
-    int row = parentItem->parent()->children().indexOf(parentItem);
+	int row = parentItem->parent()->children().indexOf(parentItem);
 
-    return createIndex(row, 0, parentItem);
+	return createIndex(row, 0, parentItem);
 }
 
 
@@ -199,65 +192,65 @@ void TestResultsTreeViewModel::parseFile(const QString &filepath)
 
 	emit fileParsed();
 
-    QAbstractItemModel::endResetModel();
+	QAbstractItemModel::endResetModel();
 }
 
 
 bool TestResultsTreeViewModel::gotoSourceFileForRow(const QModelIndex &index)
 {
-    auto item = static_cast<QObject*>(index.internalPointer());
+	auto item = static_cast<QObject*>(index.internalPointer());
 
-    if (item->property("type").toString() == "test")
-    {
-        const QVariant &filePath = item->property("filePath");
-        const QVariant &fileLineNumber = item->property("fileLineNumber");
+	if (item->property("type").toString() == "test")
+	{
+		const QVariant &filePath = item->property("filePath");
+		const QVariant &fileLineNumber = item->property("fileLineNumber");
 
-        if (filePath.isValid() && fileLineNumber.isValid())
-        {
-            QProcess process;
-            QStringList arguments;
-            arguments << filePath.toString() + ":"
-                         + fileLineNumber.toString() << "-client";
+		if (filePath.isValid() && fileLineNumber.isValid())
+		{
+			QProcess process;
+			QStringList arguments;
+			arguments << filePath.toString() + ":"
+						 + fileLineNumber.toString() << "-client";
 
-            //TODO remove hardcoding
-            process.start("C:/Qt/Tools/QtCreator/bin/qtcreator.exe", arguments);
-            process.waitForFinished();
-        }
-        else
-            return false;
-    }
+			//TODO remove hardcoding
+			process.start("C:/Qt/Tools/QtCreator/bin/qtcreator.exe", arguments);
+			process.waitForFinished();
+		}
+		else
+			return false;
+	}
 
-    return true;
+	return true;
 }
 
 
 QString TestResultsTreeViewModel::statusText() const
 {
-    auto sumStatuses = [this] (const QString &status) -> int
-    {
-        int count = 0;
+	auto sumStatuses = [this] (const QString &status) -> int
+	{
+		int count = 0;
 
-        for (const QObject *child : mRootTreeItem->children())
-        {
-            for (const QObject *test : child->children())
-            {
-                if (test->property("status") == status)
-                    count++;
-            }
-        }
+		for (const QObject *child : mRootTreeItem->children())
+		{
+			for (const QObject *test : child->children())
+			{
+				if (test->property("status") == status)
+					count++;
+			}
+		}
 
-        return count;
-    };
+		return count;
+	};
 
-    QString statusText;
-    statusText +=
-        QString::number(sumStatuses("passed")) + " passed, ";
-    statusText +=
-        QString::number(sumStatuses("failed")) + " failed, ";
-    statusText +=
-        QString::number(sumStatuses("skipped")) + " skipped";
+	QString statusText;
+	statusText +=
+			QString::number(sumStatuses("passed")) + " passed, ";
+	statusText +=
+			QString::number(sumStatuses("failed")) + " failed, ";
+	statusText +=
+			QString::number(sumStatuses("skipped")) + " skipped";
 
-    return statusText;
+	return statusText;
 }
 
 

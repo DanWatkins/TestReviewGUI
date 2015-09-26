@@ -19,15 +19,8 @@ TreeView {
 	}
 
     TableViewColumn {
-        role: "class"
-        title: "Class"
-        width: 120
-        movable: false
-    }
-
-    TableViewColumn {
-        role: "test"
-        title: "Test"
+		role: "name"
+		title: "Name"
         width: 120
         movable: false
     }

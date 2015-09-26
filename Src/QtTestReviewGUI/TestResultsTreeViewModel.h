@@ -53,8 +53,7 @@ private:
 
     enum class Roles
     {
-        Class = Qt::UserRole + 10,
-        Test,
+		Name = Qt::UserRole + 10,
         Status,
         ExecutionTime
     };
