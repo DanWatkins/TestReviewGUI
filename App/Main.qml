@@ -114,11 +114,11 @@ ApplicationWindow {
 				model: TestResultsTreeViewModel {}
 
 				onCurrentIndexChanged: {
-					messages.showMessages(model.internalProperty(currentIndex, "message"));
+					messages.showMessages(model.internalProperty(currentIndex, "name"));
 				}
 
 				Component.onCompleted: {
-					model.parseFile(qsTr("C:/Users/Dan/Desktop/file.json"));
+					doFile(qsTr("C:/Users/Dan/Desktop/here.json"));
 				}
 			}
 		}
@@ -130,7 +130,7 @@ ApplicationWindow {
 			width: 300
 			Layout.minimumWidth: 200
 
-			Messages {
+			MessagesTableView {
 				id: messages
 				anchors.fill: parent
 			}

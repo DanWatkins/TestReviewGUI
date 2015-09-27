@@ -10,7 +10,7 @@ import QtQuick.Layouts 1.1
 import QtTestReviewGUI 1.0
 
 TreeView {
-    id: tableView
+	id: tableView
 
 	function expandAll() {
 		for (var idx=0; idx < model.rowCount(); idx++) {
@@ -18,79 +18,87 @@ TreeView {
 		}
 	}
 
-    TableViewColumn {
+	TableViewColumn {
 		role: "name"
 		title: "Name"
 		width: 200
-        movable: false
-    }
+		movable: false
+	}
 
-    TableViewColumn {
-        role: "status"
-        title: "Status"
-		width: 100
-        movable: false
-
-        delegate: Item {
-            Rectangle {
-                anchors {
-                    left: parent.left
-                    right: parent.right
-                    verticalCenter: parent.verticalCenter
-                }
-
-                height: parent.height
-                radius: width*0.5
-
-                color: {
-                    if (styleData.value === qsTr("failed"))
-                        return '#90FF3300'
-                    else if (styleData.value === qsTr("passed"))
-                        return '#9000CC00'
-
-                    return '#00000000'
-                }
-            }
-
-            Text {
-                text: styleData.value
-                anchors.centerIn: parent
-                horizontalAlignment: Text.AlignHCenter
-            }
-        }
-    }
-
-
-    TableViewColumn {
-        role: "executionTime"
-        title: "Execution Time (ms)"
+	TableViewColumn {
+		role: "executionTime"
+		title: "Execution Time (ms)"
 		width: 120
-        movable: false
-    }
+		movable: false
 
-    onDoubleClicked: {
-        if (!model.gotoSourceFileForRow(currentIndex))
-            console.warn("Unable to goto the current test's source. Make sure Qt Creator's path is set in the application's settings.");
-    }
+		delegate: Item {
+			Text {
+				anchors.verticalCenter: parent.verticalCenter
+				color: styleData.textColor
+				elide: styleData.elideMode
+				text: styleData.value
+			}
+		}
+	}
 
-    rowDelegate: Item {
-        Rectangle {
-            anchors {
-                left: parent.left
-                right: parent.right
-                verticalCenter: parent.verticalCenter
-            }
+	onDoubleClicked: {
+		if (!model.gotoSourceFileForRow(currentIndex))
+			console.warn("Unable to goto the current test's source. Make sure Qt Creator's path is set in the application's settings.");
+	}
 
-            height: parent.height
+	itemDelegate: Item {
+		anchors.verticalCenter: parent.verticalCenter
+		height: 25
+		Row {
+			anchors.fill: parent
 
-            color: {
-                if (styleData.selected)
-                    return 'lightblue'
-				else if (model && model.class !== qsTr(""))
-                    return '#D5D5D5'
-                else
-                    return 'white'
-            }
-        }
-    }
+			Item {
+				width: parent.height
+				height: width
+
+				Image {
+					id: idk
+					source: {
+						var status = tableView.model.internalProperty(styleData.index,
+																	  "status");
+
+						console.log("status = " + status);
+
+						//TODO update later
+						if (status === "passed")
+							return "passed.png";
+						else if (status === "warned")
+							return "warning.png";
+						else if (status === "failed")
+							return "error.png"
+
+						return "info.png";
+					}
+
+					anchors.fill: parent
+					anchors.margins: 5
+				}
+			}
+
+			Text {
+				text: styleData.value
+				anchors.verticalCenter: parent.verticalCenter
+			}
+		}
+	}
+
+	rowDelegate: Item {
+		height: 25
+
+		Rectangle {
+			anchors.fill: parent
+
+			color: {
+				if (styleData.selected)
+					return 'lightblue'
+				else
+					return 'white'
+			}
+		}
+	}
 }

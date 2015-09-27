@@ -11,6 +11,8 @@
 #include <QtCore/QScopedPointer>
 #include <QtCore/QDateTime>
 
+#include <QQmlEngine>
+
 #include "TreeItem.h"
 
 class TestResultsTreeViewModel : public QAbstractItemModel
@@ -54,7 +56,7 @@ private:
     enum class Roles
     {
 		Name = Qt::UserRole + 10,
-        Status,
+		Status,
         ExecutionTime
     };
 };

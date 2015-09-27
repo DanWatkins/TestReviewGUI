@@ -5,7 +5,11 @@
         <file>SettingsPane.qml</file>
         <file>ColorPicker.qml</file>
         <file>PathPicker.qml</file>
-        <file>Messages.qml</file>
         <file>ProxiedGroupBox.qml</file>
+        <file>MessagesTableView.qml</file>
+        <file>error.png</file>
+        <file>info.png</file>
+        <file>warning.png</file>
+        <file>passed.png</file>
     </qresource>
 </RCC>
