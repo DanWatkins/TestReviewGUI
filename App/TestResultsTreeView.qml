@@ -41,11 +41,6 @@ TreeView {
 		}
 	}
 
-	onDoubleClicked: {
-		if (!model.gotoSourceFileForRow(currentIndex))
-			console.warn("Unable to goto the current test's source. Make sure Qt Creator's path is set in the application's settings.");
-	}
-
 	itemDelegate: Item {
 		anchors.verticalCenter: parent.verticalCenter
 		height: 25
@@ -62,14 +57,12 @@ TreeView {
 						var status = tableView.model.internalProperty(styleData.index,
 																	  "status");
 
-						console.log("status = " + status);
-
 						//TODO update later
 						if (status === "passed")
 							return "passed.png";
 						else if (status === "warned")
 							return "warning.png";
-						else if (status === "failed")
+						else if (status === "errored")
 							return "error.png"
 
 						return "info.png";

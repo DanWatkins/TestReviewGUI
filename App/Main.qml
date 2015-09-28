@@ -113,8 +113,8 @@ ApplicationWindow {
 				anchors.fill: parent
 				model: TestResultsTreeViewModel {}
 
-				onCurrentIndexChanged: {
-					messages.showMessages(model.internalProperty(currentIndex, "name"));
+				onDoubleClicked: {
+					messagesTableView.showMessagesForIndex(currentIndex);
 				}
 
 				Component.onCompleted: {
@@ -131,7 +131,7 @@ ApplicationWindow {
 			Layout.minimumWidth: 200
 
 			MessagesTableView {
-				id: messages
+				id: messagesTableView
 				anchors.fill: parent
 			}
 		}

@@ -68,12 +68,28 @@ void ResultParser::parseJsonObject_class(const QJsonObject &classJsonObject,
 
 	//calculate totals
 	int totalExecutionTime = 0;
+	bool hasError = false;
+	bool hasWarning = false;
 
 	for (const QObject *child : treeItemClass->children())
 	{
 		totalExecutionTime += child->property("executionTime").toInt();
+
+		//TODO please clean up all of thesee lose strings
+		if (child->property("status").toString() == "errored")
+			hasError = true;
+		else if (child->property("status").toString() == "warned")
+			hasWarning = true;
 	}
 
+	QString status = "passed";
+
+	if (hasError)
+		status = "errored";
+	else if (hasWarning)
+		status = "warned";
+
+	treeItemClass->setProperty("status", status);
     treeItemClass->setProperty("executionTime", QVariant(totalExecutionTime));
 }
 
