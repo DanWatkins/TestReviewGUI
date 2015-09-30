@@ -10,14 +10,14 @@ StaticLibrary {
 
     Group {
         name: "C++"
-        prefix: "QtTestReviewGUI/**/"
+        prefix: "TestReviewGUI/**/"
         files: ["*.cpp", "*.h"]
     }
 
 
     Group {
         name: "Resources"
-        prefix: "QtTestReviewGUI/Resources/**/"
+        prefix: "TestReviewGUI/Resources/**/"
         files: ["*.*"]
     }
 

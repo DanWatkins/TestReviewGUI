@@ -19,7 +19,7 @@ public:
 	MessagesListViewModel(QObject *parent=nullptr);
 
 	//TODO maybe just get Message, TestResult, and Class all QObject derived?
-	Q_INVOKABLE void setMessage(QObject *message);
+	Q_INVOKABLE void setTestIndex(const QModelIndex &testResultIndex);
 
 	int rowCount(const QModelIndex &parent) const override;
 	QHash<int, QByteArray> roleNames() const override;

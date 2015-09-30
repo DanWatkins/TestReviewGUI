@@ -12,8 +12,9 @@
 #include <ValpineBase/ValpineBase.h>
 #include <ValpineBase/SingleInstance.h>
 
-#include <QtTestReviewGUI/TestResultsTreeViewModel.h>
-#include <QtTestReviewGUI/Appstate.h>
+#include <TestReviewGUI/TestResultsTreeViewModel.h>
+#include <TestReviewGUI/MessagesListViewModel.h>
+#include <TestReviewGUI/Appstate.h>
 
 int main(int argc, char *argv[])
 {
@@ -39,8 +40,11 @@ int main(int argc, char *argv[])
 
 	QQmlApplicationEngine engine;
 	vbase::ValpineBase::registerQmlModule(&engine);
-	qmlRegisterType<TestResultsTreeViewModel>("QtTestReviewGUI", 1, 0,
+	qmlRegisterType<TestResultsTreeViewModel>("TestReviewGUI", 1, 0,
 											  "TestResultsTreeViewModel");
+
+	qmlRegisterType<MessagesListViewModel>("TestReviewGUI", 1, 0,
+										   "MessagesListViewModel");
 
 	//set various context properties
 	{

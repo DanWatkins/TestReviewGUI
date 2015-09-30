@@ -7,7 +7,7 @@
 
 #include <ValpineBase/Test.h>
 
-#include <QtTestReviewGUI/ResultParser.h>
+#include <TestReviewGUI/ResultParser.h>
 
 class Test_ResultParser : public QObject
 {

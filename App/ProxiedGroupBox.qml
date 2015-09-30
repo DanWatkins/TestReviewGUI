@@ -10,7 +10,7 @@ import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.1
 
 import ValpineBase 1.0
-import QtTestReviewGUI 1.0
+import TestReviewGUI 1.0
 
 Item {
 	property alias groupBox: internalGroupBox

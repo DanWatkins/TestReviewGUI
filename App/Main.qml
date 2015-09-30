@@ -10,11 +10,11 @@ import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.1
 
 import ValpineBase 1.0
-import QtTestReviewGUI 1.0
+import TestReviewGUI 1.0
 
 ApplicationWindow {
     id: root
-	title: qsTr("QtTestReviewGUI - v" + appVersion)
+	title: qsTr("TestReviewGUI - v" + appVersion)
 	width: 750
 	height: 400
     visible: true

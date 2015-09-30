@@ -39,6 +39,14 @@ public:
     Q_INVOKABLE void parseFile(const QString &filepath);
     Q_INVOKABLE bool gotoSourceFileForRow(const QModelIndex &index);
 
+	Q_INVOKABLE QObject *mitziPeine()
+	{
+		QObject *mp = new QObject;
+		mp->setProperty("foo", "hello");
+
+		return mp;
+	}
+
     QString statusText() const;
     QDateTime dateTime_started() const { return mRootTreeItem->property("dateTime_started").toDateTime(); }
 	QDateTime dateTime_finished() const { return mRootTreeItem->property("dateTime_finished").toDateTime(); }

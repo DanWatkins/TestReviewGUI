@@ -9,7 +9,7 @@ import QtQuick.Window 2.2
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.1
 
-import QtTestReviewGUI 1.0
+import TestReviewGUI 1.0
 
 ListView {
 	id: rootListView
@@ -17,7 +17,10 @@ ListView {
 
 	function showMessagesForIndex(index) {
 		console.log(index);
+		model.setTestIndex(index);
 	}
+
+	model: MessagesListViewModel {}
 
 	delegate: Component {
 		id: myDelegate
