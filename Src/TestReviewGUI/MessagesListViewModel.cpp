@@ -16,43 +16,54 @@ MessagesListViewModel::MessagesListViewModel(QObject *parent) :
 
 void MessagesListViewModel::setTestIndex(const QModelIndex &testIndex)
 {
-	QObject *obj = static_cast<QObject*>(testIndex.internalPointer());
-
-	if (!obj)
-		qDebug() << "Oh shit";
-	else
+	QAbstractListModel::beginResetModel();
 	{
-		qDebug() << "Test";
-		qDebug() << obj->property("type").toString();
-		qDebug() << obj->property("status").toString();
-		qDebug() << obj->property("name").toString();
-		qDebug() << obj->property("executionTime").toString();
-
-		for (QObject *child : obj->children())
-		{
-			qDebug() << "Child...";
-			qDebug() << "   " << child->property("filePath");
-			qDebug() << "   " << child->property("lineNumber");
-			qDebug() << "   " << child->property("details").toStringList();
-		}
+		mTestObject = static_cast<QObject*>(testIndex.internalPointer());
 	}
+	QAbstractListModel::endResetModel();
 }
 
 
 int MessagesListViewModel::rowCount(const QModelIndex &parent) const
 {
-	return 0;
+	Q_UNUSED(parent);
+
+	if (!mTestObject)
+		return 0;
+
+	return mTestObject->children().count();
 }
 
 
 QHash<int, QByteArray> MessagesListViewModel::roleNames() const
 {
+	QHash<int, QByteArray> roles;
+	roles[static_cast<int>(Roles::FilePath)] = "filePath";
+	roles[static_cast<int>(Roles::LineNumber)] = "lineNumber";
+	roles[static_cast<int>(Roles::Details)] = "details";
 
+	return roles;
 }
 
 
 QVariant MessagesListViewModel::data(const QModelIndex &index, int role) const
 {
+	if (!index.isValid())
+		return QVariant();
 
+	QObject *detailChild = mTestObject->children().at(index.row());
+	Roles roleEnum = static_cast<Roles>(role);
+
+	switch (roleEnum)
+	{
+	case Roles::FilePath:
+		return detailChild->property("filePath");
+	case Roles::LineNumber:
+		return detailChild->property("lineNumber");
+	case Roles::Details:
+		return  detailChild->property("details");
+	}
+
+	return QVariant("");
 }
 

@@ -21,20 +21,19 @@ public:
 	//TODO maybe just get Message, TestResult, and Class all QObject derived?
 	Q_INVOKABLE void setTestIndex(const QModelIndex &testResultIndex);
 
-	int rowCount(const QModelIndex &parent) const override;
+	int rowCount(const QModelIndex &parent=QModelIndex()) const override;
 	QHash<int, QByteArray> roleNames() const override;
 	QVariant data(const QModelIndex &index, int role) const override;
 
 private:
 	enum class Roles
     {
-		Type = Qt::UserRole + 10,
-		FilePath,
+		FilePath = Qt::UserRole + 10,
 		LineNumber,
 		Details
     };
+
+	QObject *mTestObject = nullptr;
 };
-
-
 
 #endif

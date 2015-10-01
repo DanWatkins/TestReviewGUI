@@ -6,10 +6,10 @@
         <file>ColorPicker.qml</file>
         <file>PathPicker.qml</file>
         <file>ProxiedGroupBox.qml</file>
-        <file>MessagesTableView.qml</file>
         <file>error.png</file>
         <file>info.png</file>
         <file>warning.png</file>
         <file>passed.png</file>
+        <file>MessagesListView.qml</file>
     </qresource>
 </RCC>

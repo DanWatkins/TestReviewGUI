@@ -53,6 +53,7 @@ TreeView {
 
 				Image {
 					id: idk
+					mipmap: true
 					source: {
 						var status = tableView.model.internalProperty(styleData.index,
 																	  "status");

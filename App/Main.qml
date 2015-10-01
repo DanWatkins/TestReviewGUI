@@ -130,9 +130,12 @@ ApplicationWindow {
 			width: 300
 			Layout.minimumWidth: 200
 
-			MessagesTableView {
-				id: messagesTableView
+			ScrollView {
 				anchors.fill: parent
+
+				MessagesListView {
+					id: messagesTableView
+				}
 			}
 		}
     }
