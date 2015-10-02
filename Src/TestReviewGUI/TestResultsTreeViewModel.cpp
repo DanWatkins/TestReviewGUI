@@ -47,6 +47,7 @@ int TestResultsTreeViewModel::rowCount(const QModelIndex &parent) const
 				QString status = child->property("status").toString();
 
 				if ((mShowFailedTests && status == "errored") ||
+						(mShowWarnedTests && status == "warned") ||
 						(mShowPassedTests && status == "passed"))
 				{
 					count++;
@@ -129,6 +130,7 @@ QModelIndex TestResultsTreeViewModel::index(int row, int column, const QModelInd
 			QString status = child->property("status").toString();
 
 			if ((mShowFailedTests && status == "errored") ||
+					(mShowWarnedTests && status == "warned") ||
 					(mShowPassedTests && status == "passed"))
 			{
 				effectiveRow++;

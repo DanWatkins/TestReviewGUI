@@ -70,6 +70,7 @@ QHash<int, QByteArray> MessagesListViewModel::roleNames() const
 	roles[static_cast<int>(Roles::FilePath)] = "filePath";
 	roles[static_cast<int>(Roles::LineNumber)] = "lineNumber";
 	roles[static_cast<int>(Roles::Details)] = "details";
+	roles[static_cast<int>(Roles::FailureType)] = "failureType";
 
 	return roles;
 }
@@ -91,6 +92,8 @@ QVariant MessagesListViewModel::data(const QModelIndex &index, int role) const
 		return detailChild->property("lineNumber");
 	case Roles::Details:
 		return  detailChild->property("details");
+	case Roles::FailureType:
+		return detailChild->property("failureType");
 	}
 
 	return QVariant("");

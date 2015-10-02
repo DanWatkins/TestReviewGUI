@@ -50,6 +50,7 @@ private:
 
 	//TODO transition these to actual settings
 	bool mShowFailedTests = true;
+	bool mShowWarnedTests = true;
 	bool mShowPassedTests = true;
 
     enum class Roles

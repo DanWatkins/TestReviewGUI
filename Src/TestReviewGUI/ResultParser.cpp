@@ -117,6 +117,11 @@ void ResultParser::parseJsonObject_failure(const QJsonObject &failureJsonObject,
 	QObject *treeItemFailure = new QObject(parentTest);
 
 	treeItemFailure->setProperty("type", "failure");
+
+	vbase::test::Message m;
+	m.type = static_cast<vbase::test::Message::Type>(failureJsonObject["type"].toInt());
+	treeItemFailure->setProperty("failureType", m.typeName());
+
 	treeItemFailure->setProperty("filePath", failureJsonObject["filePath"].toString());
 	treeItemFailure->setProperty("lineNumber", failureJsonObject["lineNumber"].toInt());
 

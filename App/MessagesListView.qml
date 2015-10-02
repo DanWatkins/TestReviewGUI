@@ -35,7 +35,7 @@ ListView {
 				anchors.fill: parent
 				color: "gray"
 				opacity: 0.1
-				radius: 4
+				radius: 5
 			}
 
 			ColumnLayout {
@@ -55,7 +55,14 @@ ListView {
 						Layout.maximumHeight: 20
 						Layout.maximumWidth: 20
 						mipmap: true
-						source: "error.png"
+						source: {
+							if (failureType == "debug")
+								return "info.png";
+							else if (failureType == "warning")
+								return "warning.png";
+							else if (failureType == "error")
+								return "error.png";
+						}
 					}
 
 					Text {
@@ -86,7 +93,6 @@ ListView {
 
 			MouseArea {
 				anchors.fill: parent
-				property int indexOfThisDelegate: index
 
 				onClicked: {
 					rootListView.currentIndex = index

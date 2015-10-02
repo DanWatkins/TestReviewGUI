@@ -31,7 +31,8 @@ private:
     {
 		FilePath = Qt::UserRole + 10,
 		LineNumber,
-		Details
+		Details,
+		FailureType
     };
 
 	QObject *mTestObject = nullptr;
