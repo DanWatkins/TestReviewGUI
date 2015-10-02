@@ -43,16 +43,8 @@ int TestResultsTreeViewModel::rowCount(const QModelIndex &parent) const
 			int count = 0;
 
 			for (auto child : item->children())
-			{
-				QString status = child->property("status").toString();
-
-				if ((mShowFailedTests && status == "errored") ||
-						(mShowWarnedTests && status == "warned") ||
-						(mShowPassedTests && status == "passed"))
-				{
+				if (statusIsEnabled(child->property("status").toString()))
 					count++;
-				}
-			}
 
 			return count;
 		}
@@ -127,14 +119,8 @@ QModelIndex TestResultsTreeViewModel::index(int row, int column, const QModelInd
 
 		for (auto child : parentItem->children())
 		{
-			QString status = child->property("status").toString();
-
-			if ((mShowFailedTests && status == "errored") ||
-					(mShowWarnedTests && status == "warned") ||
-					(mShowPassedTests && status == "passed"))
-			{
+			if (statusIsEnabled(child->property("status").toString()))
 				effectiveRow++;
-			}
 
 			if (effectiveRow == row)
 				return createIndex(row, column, child);
@@ -220,11 +206,19 @@ QString TestResultsTreeViewModel::statusText() const
 	statusText +=
 			QString::number(sumStatuses("passed")) + " passed, ";
 	statusText +=
-			QString::number(sumStatuses("errored")) + " failed, ";
+			QString::number(sumStatuses("error")) + " failed, ";
 	statusText +=
 			QString::number(sumStatuses("skipped")) + " skipped";
 
 	return statusText;
+}
+
+
+bool TestResultsTreeViewModel::statusIsEnabled(const QString &status) const
+{
+	return ((mShowFailedTests && status == "error") ||
+			(mShowWarnedTests && status == "warning") ||
+			(mShowPassedTests && status == "passed"));
 }
 
 

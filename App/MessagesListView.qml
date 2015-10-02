@@ -56,9 +56,7 @@ ListView {
 						Layout.maximumWidth: 20
 						mipmap: true
 						source: {
-							if (failureType == "debug")
-								return "info.png";
-							else if (failureType == "warning")
+							if (failureType == "warning")
 								return "warning.png";
 							else if (failureType == "error")
 								return "error.png";

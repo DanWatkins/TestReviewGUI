@@ -76,18 +76,18 @@ void ResultParser::parseJsonObject_class(const QJsonObject &classJsonObject,
 		totalExecutionTime += child->property("executionTime").toInt();
 
 		//TODO please clean up all of thesee lose strings
-		if (child->property("status").toString() == "errored")
+		if (child->property("status").toString() == "error")
 			hasError = true;
-		else if (child->property("status").toString() == "warned")
+		else if (child->property("status").toString() == "warning")
 			hasWarning = true;
 	}
 
 	QString status = "passed";
 
 	if (hasError)
-		status = "errored";
+		status = "error";
 	else if (hasWarning)
-		status = "warned";
+		status = "warning";
 
 	treeItemClass->setProperty("status", status);
     treeItemClass->setProperty("executionTime", QVariant(totalExecutionTime));
@@ -118,8 +118,8 @@ void ResultParser::parseJsonObject_failure(const QJsonObject &failureJsonObject,
 
 	treeItemFailure->setProperty("type", "failure");
 
-	vbase::test::Message m;
-	m.type = static_cast<vbase::test::Message::Type>(failureJsonObject["type"].toInt());
+	vbase::test::Failure m;
+	m.type = static_cast<vbase::test::Failure::Type>(failureJsonObject["type"].toInt());
 	treeItemFailure->setProperty("failureType", m.typeName());
 
 	treeItemFailure->setProperty("filePath", failureJsonObject["filePath"].toString());

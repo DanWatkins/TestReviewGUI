@@ -59,6 +59,8 @@ private:
 		Status,
         ExecutionTime
     };
+
+	bool statusIsEnabled(const QString &status) const;
 };
 
 

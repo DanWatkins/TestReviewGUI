@@ -61,9 +61,9 @@ TreeView {
 						//TODO update later
 						if (status === "passed")
 							return "passed.png";
-						else if (status === "warned")
+						else if (status === "warning")
 							return "warning.png";
-						else if (status === "errored")
+						else if (status === "error")
 							return "error.png"
 
 						return "info.png";
