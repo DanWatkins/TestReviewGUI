@@ -42,8 +42,8 @@ TreeView {
 	}
 
 	itemDelegate: Item {
-		anchors.verticalCenter: parent.verticalCenter
 		height: 25
+
 		Row {
 			anchors.fill: parent
 

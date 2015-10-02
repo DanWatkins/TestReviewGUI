@@ -15,6 +15,8 @@ ListView {
 	id: rootListView
 	spacing: 5
 	clip: true
+	highlightMoveDuration: 0
+	highlightResizeDuration: 0
 
 	function showMessagesForIndex(index) {
 		model.setTestIndex(index);
@@ -27,17 +29,12 @@ ListView {
 			id: myDelegate
 
 			width: parent.width
-			height: {
-				console.log("hrl: " + headerRowLayout.implicitHeight);
-				console.log("dlv: " + detailsListView.height);
-
-				return headerRowLayout.implicitHeight + detailsListView.height + 10
-			}
+			height: headerRowLayout.implicitHeight + detailsListView.height + 10
 
 			Rectangle {
 				anchors.fill: parent
 				color: "gray"
-				opacity: 0.2
+				opacity: 0.1
 				radius: 4
 			}
 
@@ -63,7 +60,7 @@ ListView {
 
 					Text {
 						id: filePathText
-						text: filePath
+						text: filePath + " (" + lineNumber + ")"
 						Layout.fillWidth: true
 						wrapMode: Text.WordWrap
 					}

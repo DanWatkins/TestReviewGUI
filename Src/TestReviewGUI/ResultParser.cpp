@@ -118,7 +118,7 @@ void ResultParser::parseJsonObject_failure(const QJsonObject &failureJsonObject,
 
 	treeItemFailure->setProperty("type", "failure");
 	treeItemFailure->setProperty("filePath", failureJsonObject["filePath"].toString());
-	treeItemFailure->setProperty("lineNumber", failureJsonObject["lineNumber"].toString());
+	treeItemFailure->setProperty("lineNumber", failureJsonObject["lineNumber"].toInt());
 
 	QStringList messages;
 	for (auto varient : failureJsonObject["details"].toArray().toVariantList())
