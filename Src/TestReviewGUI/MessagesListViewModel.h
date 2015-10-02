@@ -20,6 +20,7 @@ public:
 
 	//TODO maybe just get Message, TestResult, and Class all QObject derived?
 	Q_INVOKABLE void setTestIndex(const QModelIndex &testResultIndex);
+	Q_INVOKABLE void gotoSourceFileForRow(int row) const;
 
 	int rowCount(const QModelIndex &parent=QModelIndex()) const override;
 	QHash<int, QByteArray> roleNames() const override;

@@ -196,34 +196,6 @@ void TestResultsTreeViewModel::parseFile(const QString &filepath)
 }
 
 
-bool TestResultsTreeViewModel::gotoSourceFileForRow(const QModelIndex &index)
-{
-	auto item = static_cast<QObject*>(index.internalPointer());
-
-	if (item->property("type").toString() == "test")
-	{
-		const QVariant &filePath = item->property("filePath");
-		const QVariant &fileLineNumber = item->property("fileLineNumber");
-
-		if (filePath.isValid() && fileLineNumber.isValid())
-		{
-			QProcess process;
-			QStringList arguments;
-			arguments << filePath.toString() + ":"
-						 + fileLineNumber.toString() << "-client";
-
-			//TODO remove hardcoding
-			process.start("C:/Qt/Tools/QtCreator/bin/qtcreator.exe", arguments);
-			process.waitForFinished();
-		}
-		else
-			return false;
-	}
-
-	return true;
-}
-
-
 QString TestResultsTreeViewModel::statusText() const
 {
 	auto sumStatuses = [this] (const QString &status) -> int

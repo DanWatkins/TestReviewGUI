@@ -86,9 +86,14 @@ ListView {
 
 			MouseArea {
 				anchors.fill: parent
+				property int indexOfThisDelegate: index
 
 				onClicked: {
 					rootListView.currentIndex = index
+				}
+
+				onDoubleClicked: {
+					rootListView.model.gotoSourceFileForRow(index);
 				}
 			}
 		}

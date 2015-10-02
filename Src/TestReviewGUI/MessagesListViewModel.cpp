@@ -3,6 +3,8 @@
 // This file is licensed under the MIT License.
 //=============================================================================|
 
+#include <QtCore/QProcess>
+
 #include "MessagesListViewModel.h"
 
 //
@@ -21,6 +23,33 @@ void MessagesListViewModel::setTestIndex(const QModelIndex &testIndex)
 		mTestObject = static_cast<QObject*>(testIndex.internalPointer());
 	}
 	QAbstractListModel::endResetModel();
+}
+
+
+void MessagesListViewModel::gotoSourceFileForRow(int row) const
+{
+	if (mTestObject->children().count() <= row)
+		return;
+
+	QObject *item = mTestObject->children().at(row);
+
+	if (item->property("type").toString() == "failure")
+	{
+		const QVariant &filePath = item->property("filePath");
+		const QVariant &lineNumber = item->property("lineNumber");
+
+		if (filePath.isValid() && lineNumber.isValid())
+		{
+			QProcess process;
+			QStringList arguments;
+			arguments << filePath.toString() + ":"
+						 + lineNumber.toString() << "-client";
+
+			//TODO remove hardcoding
+			process.start("C:/Qt/Tools/QtCreator/bin/qtcreator.exe", arguments);
+			process.waitForFinished();
+		}
+	}
 }
 
 
