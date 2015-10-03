@@ -20,7 +20,7 @@ void MessagesListViewModel::setTestIndex(const QModelIndex &testIndex)
 {
 	QAbstractListModel::beginResetModel();
 	{
-		mTestObject = static_cast<QObject*>(testIndex.internalPointer());
+		mTopLevelObject = static_cast<QObject*>(testIndex.internalPointer());
 	}
 	QAbstractListModel::endResetModel();
 }
@@ -28,12 +28,9 @@ void MessagesListViewModel::setTestIndex(const QModelIndex &testIndex)
 
 void MessagesListViewModel::gotoSourceFileForRow(int row) const
 {
-	if (mTestObject->children().count() <= row)
-		return;
+	const QObject *item = testObjectForRow(row);
 
-	QObject *item = mTestObject->children().at(row);
-
-	if (item->property("type").toString() == "failure")
+	if (item && item->property("type").toString() == "failure")
 	{
 		const QVariant &filePath = item->property("filePath");
 		const QVariant &lineNumber = item->property("lineNumber");
@@ -57,10 +54,26 @@ int MessagesListViewModel::rowCount(const QModelIndex &parent) const
 {
 	Q_UNUSED(parent);
 
-	if (!mTestObject)
+	if (!mTopLevelObject)
 		return 0;
 
-	return mTestObject->children().count();
+	QString type = mTopLevelObject->property("type").toString();
+
+	if (type == "class")
+	{
+		int count = 0;
+
+		for (const QObject *child : mTopLevelObject->children())
+			count += child->children().count();
+
+		return count;
+	}
+	else if (type == "test")
+	{
+		return mTopLevelObject->children().count();
+	}
+
+	return 0;
 }
 
 
@@ -81,7 +94,7 @@ QVariant MessagesListViewModel::data(const QModelIndex &index, int role) const
 	if (!index.isValid())
 		return QVariant();
 
-	QObject *detailChild = mTestObject->children().at(index.row());
+	const QObject *detailChild = testObjectForRow(index.row());
 	Roles roleEnum = static_cast<Roles>(role);
 
 	switch (roleEnum)
@@ -97,5 +110,35 @@ QVariant MessagesListViewModel::data(const QModelIndex &index, int role) const
 	}
 
 	return QVariant("");
+}
+
+
+const QObject* MessagesListViewModel::testObjectForRow(int row) const
+{
+	QString type = mTopLevelObject->property("type").toString();
+
+	if (type == "class")
+	{
+		int index = 0;
+
+		for (const QObject *child : mTopLevelObject->children())
+		{
+			for (int i=0; i<child->children().count(); i++)
+			{
+				if (index == row)
+				{
+					return child->children().at(i);
+				}
+
+				index++;
+			}
+		}
+	}
+	else if (type == "test")
+	{
+		return mTopLevelObject->children().at(row);
+	}
+
+	return nullptr;
 }
 

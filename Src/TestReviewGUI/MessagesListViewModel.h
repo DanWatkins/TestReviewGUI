@@ -35,7 +35,9 @@ private:
 		FailureType
     };
 
-	QObject *mTestObject = nullptr;
+	const QObject *mTopLevelObject = nullptr;
+
+	const QObject* testObjectForRow(int row) const;
 };
 
 #endif
