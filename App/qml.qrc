@@ -10,6 +10,6 @@
         <file>info.png</file>
         <file>warning.png</file>
         <file>passed.png</file>
-        <file>MessagesListView.qml</file>
+        <file>FailuresListView.qml</file>
     </qresource>
 </RCC>

@@ -10,16 +10,16 @@
 
 #include "TreeItem.h"
 
-class MessagesListViewModel : public QAbstractListModel
+class FailuresListViewModel : public QAbstractListModel
 {
     Q_OBJECT
 
 public:
     friend class ResultParser;
-	MessagesListViewModel(QObject *parent=nullptr);
+	FailuresListViewModel(QObject *parent=nullptr);
 
 	//TODO maybe just get Message, TestResult, and Class all QObject derived?
-	Q_INVOKABLE void setTestIndex(const QModelIndex &testResultIndex);
+	Q_INVOKABLE void setTopLevelIndex(const QModelIndex &topLevelIndex);
 	Q_INVOKABLE void gotoSourceFileForRow(int row) const;
 
 	int rowCount(const QModelIndex &parent=QModelIndex()) const override;

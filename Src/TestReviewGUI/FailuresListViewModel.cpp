@@ -5,28 +5,28 @@
 
 #include <QtCore/QProcess>
 
-#include "MessagesListViewModel.h"
+#include "FailuresListViewModel.h"
 
 //
 // # public #
 //
 
-MessagesListViewModel::MessagesListViewModel(QObject *parent) :
+FailuresListViewModel::FailuresListViewModel(QObject *parent) :
 	QAbstractListModel(parent)
 {
 }
 
-void MessagesListViewModel::setTestIndex(const QModelIndex &testIndex)
+void FailuresListViewModel::setTopLevelIndex(const QModelIndex &topLevelIndex)
 {
 	QAbstractListModel::beginResetModel();
 	{
-		mTopLevelObject = static_cast<QObject*>(testIndex.internalPointer());
+		mTopLevelObject = static_cast<QObject*>(topLevelIndex.internalPointer());
 	}
 	QAbstractListModel::endResetModel();
 }
 
 
-void MessagesListViewModel::gotoSourceFileForRow(int row) const
+void FailuresListViewModel::gotoSourceFileForRow(int row) const
 {
 	const QObject *item = testObjectForRow(row);
 
@@ -50,7 +50,7 @@ void MessagesListViewModel::gotoSourceFileForRow(int row) const
 }
 
 
-int MessagesListViewModel::rowCount(const QModelIndex &parent) const
+int FailuresListViewModel::rowCount(const QModelIndex &parent) const
 {
 	Q_UNUSED(parent);
 
@@ -77,7 +77,7 @@ int MessagesListViewModel::rowCount(const QModelIndex &parent) const
 }
 
 
-QHash<int, QByteArray> MessagesListViewModel::roleNames() const
+QHash<int, QByteArray> FailuresListViewModel::roleNames() const
 {
 	QHash<int, QByteArray> roles;
 	roles[static_cast<int>(Roles::FilePath)] = "filePath";
@@ -89,7 +89,7 @@ QHash<int, QByteArray> MessagesListViewModel::roleNames() const
 }
 
 
-QVariant MessagesListViewModel::data(const QModelIndex &index, int role) const
+QVariant FailuresListViewModel::data(const QModelIndex &index, int role) const
 {
 	if (!index.isValid())
 		return QVariant();
@@ -113,7 +113,7 @@ QVariant MessagesListViewModel::data(const QModelIndex &index, int role) const
 }
 
 
-const QObject* MessagesListViewModel::testObjectForRow(int row) const
+const QObject* FailuresListViewModel::testObjectForRow(int row) const
 {
 	QString type = mTopLevelObject->property("type").toString();
 

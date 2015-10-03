@@ -124,7 +124,7 @@ ApplicationWindow {
 		}
 
 		ProxiedGroupBox {
-			groupBox.title: "Messages"
+			groupBox.title: "Failures"
 			groupBox.anchors.margins: 5
 
 			width: 300
@@ -133,7 +133,7 @@ ApplicationWindow {
 			ScrollView {
 				anchors.fill: parent
 
-				MessagesListView {
+				FailuresListView {
 					id: messagesTableView
 				}
 			}

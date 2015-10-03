@@ -13,7 +13,7 @@
 #include <ValpineBase/SingleInstance.h>
 
 #include <TestReviewGUI/TestResultsTreeViewModel.h>
-#include <TestReviewGUI/MessagesListViewModel.h>
+#include <TestReviewGUI/FailuresListViewModel.h>
 #include <TestReviewGUI/Appstate.h>
 
 int main(int argc, char *argv[])
@@ -43,8 +43,8 @@ int main(int argc, char *argv[])
 	qmlRegisterType<TestResultsTreeViewModel>("TestReviewGUI", 1, 0,
 											  "TestResultsTreeViewModel");
 
-	qmlRegisterType<MessagesListViewModel>("TestReviewGUI", 1, 0,
-										   "MessagesListViewModel");
+	qmlRegisterType<FailuresListViewModel>("TestReviewGUI", 1, 0,
+										   "FailuresListViewModel");
 
 	//set various context properties
 	{

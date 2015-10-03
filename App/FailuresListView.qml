@@ -19,10 +19,10 @@ ListView {
 	highlightResizeDuration: 0
 
 	function showMessagesForIndex(index) {
-		model.setTestIndex(index);
+		model.setTopLevelIndex(index);
 	}
 
-	model: MessagesListViewModel {}
+	model: FailuresListViewModel {}
 
 	delegate: Component {
 		Item {
