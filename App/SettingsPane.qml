@@ -8,7 +8,9 @@ import QtQuick.Controls 1.4
 import QtQuick.Window 2.2
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.1
+
 import TestReviewGUI 1.0
+import ValpineBase 1.0
 
 Item {
     id: item1
@@ -62,6 +64,12 @@ Item {
                 height: 20
                 text: "Failed Status:"
             }
+
+			SettingsCheckBox {
+                appSettingsProvider: appSettings
+                settingsKey: Settings.GraphicsWindowIsFullscreen
+				title: "Is Fullscreen"
+			}
         }
 
         ColumnLayout {
