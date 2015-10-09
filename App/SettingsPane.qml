@@ -67,7 +67,7 @@ Item {
 
 			SettingsCheckBox {
                 appSettingsProvider: appSettings
-                settingsKey: Settings.GraphicsWindowIsFullscreen
+				settingsKey: SettingsEnum.GraphicsWindowIsFullscreen
 				title: "Is Fullscreen"
 			}
         }

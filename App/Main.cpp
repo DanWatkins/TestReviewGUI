@@ -45,7 +45,11 @@ int main(int argc, char *argv[])
 
 	QApplication app(argc, argv);
 	app.setApplicationVersion("0.8.0");	//TODO clean up
-	appSettings.load("TestReviewGUI.ini");
+
+	if (!appSettings.load("TestReviewGUI222.ini"))
+	{
+		return EXIT_FAILURE;
+	}
 
 	QString appFullName = "com.danwatkins.testreviewgui";
 	vbase::SingleInstance singleInstance;
