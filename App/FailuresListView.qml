@@ -18,8 +18,12 @@ ListView {
 	highlightMoveDuration: 0
 	highlightResizeDuration: 0
 
-	function showMessagesForIndex(index) {
+	function showFailuresForIndex(index) {
 		model.setTopLevelIndex(index);
+	}
+
+	function clearFailures() {
+		model.setTopLevelIndex(null);
 	}
 
 	model: FailuresListViewModel {}

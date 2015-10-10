@@ -18,7 +18,6 @@ public:
     friend class ResultParser;
 	FailuresListViewModel(QObject *parent=nullptr);
 
-	//TODO maybe just get Message, TestResult, and Class all QObject derived?
 	Q_INVOKABLE void setTopLevelIndex(const QModelIndex &topLevelIndex);
 	Q_INVOKABLE void gotoSourceFileForRow(int row) const;
 

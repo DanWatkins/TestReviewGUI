@@ -33,14 +33,15 @@ ApplicationWindow {
 		savedFilepath = filepath;
 		testTableView.model.parseFile(savedFilepath);
 		testTableView.expandAll();
+		failuresListView.clearFailures();
 	}
 
-	//consider making a root c++ type to replace AplicationWindow
+	//TODO consider making a root c++ type to replace AplicationWindow
 	Connections {
 		target: appSingleInstance
 
 		onReceivedArguments: {
-			if (arguments[0].length == 2) {
+			if (arguments[0].length === 2) {
 				doFile(arguments[0][1]);
 			}
 
@@ -114,7 +115,7 @@ ApplicationWindow {
 				model: TestResultsTreeViewModel {}
 
 				onDoubleClicked: {
-					messagesTableView.showMessagesForIndex(currentIndex);
+					failuresListView.showFailuresForIndex(currentIndex);
 				}
 
 				Component.onCompleted: {
@@ -134,7 +135,7 @@ ApplicationWindow {
 				anchors.fill: parent
 
 				FailuresListView {
-					id: messagesTableView
+					id: failuresListView
 				}
 			}
 		}
