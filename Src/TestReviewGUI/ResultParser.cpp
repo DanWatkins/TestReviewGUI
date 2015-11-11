@@ -36,12 +36,14 @@ bool ResultParser::parseFile(const QString &filepath, QObject *treeItem)
     }
 
     const QJsonObject rootObject = doc.object();
-    treeItem->setProperty("dateTime_started", QDateTime::fromString(rootObject["dateTime_started"].toString(),
-            vbase::test::Suite::dateFormat()));
+	const QString &dfmt = vbase::test::Results::dateFormat();
 
+	treeItem->setProperty("dateTime_started",
+						  QDateTime::fromString(rootObject["dateTime_started"].toString(),
+						  dfmt));
     {
         QString v = rootObject["dateTime_finished"].toString();
-        QString dfmt = vbase::test::Suite::dateFormat();
+
         QDateTime dt = QDateTime::fromString(v, dfmt);
         treeItem->setProperty("dateTime_finished", QVariant(dt));
     }

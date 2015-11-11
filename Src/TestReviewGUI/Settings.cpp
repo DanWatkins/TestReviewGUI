@@ -1,3 +1,5 @@
+#include <ValpineBase/SettingsBase.h>
+
 #include "Settings.h"
 
 vbase::SettingsBase::MetaKeyInfo Settings::metaKeyInfoForKey(Settings::KeyEnum key)
@@ -15,7 +17,9 @@ Settings::DefaultValuesHash Settings::buildDefaultValuesHash()
 {
 	DefaultValuesHash dvh;
 
-	dvh[GraphicsWindowIsFullscreen] = { QVariant(false) };
+	using KeyUpdateType = vbase::SettingsBase::KeyUpdateType;
+
+	dvh[GraphicsWindowIsFullscreen] = { QVariant(false), KeyUpdateType::Instant };
 
 	return dvh;
 }

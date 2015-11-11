@@ -24,8 +24,6 @@ void registerQmlTypes(QQmlEngine &engine)
 {
 	vbase::ValpineBase::registerQmlModule(&engine);
 
-	qmlRegisterType<vbase::SettingsBase>("TestReviewGUI", 1, 0, "Settings");
-
 	qmlRegisterType<Settings>("TestReviewGUI", 1, 0, "SettingsEnum");
 
 	qmlRegisterType<TestResultsTreeViewModel>("TestReviewGUI", 1, 0,
